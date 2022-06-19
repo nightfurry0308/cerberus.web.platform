@@ -73,7 +73,6 @@ export interface BotRowType {
 export interface BotStateType {
   botId: string
   botLogModal: false
-  botTableAutoUpdateTime: string
   botLogType: string
   botTypeLogs: []
   selectedBots: []
@@ -141,4 +140,10 @@ export interface BankLogRowType {
 export interface LogStateType {
   loading: boolean
   bankLogRows: BankLogRowType[]
+}
+
+export interface AppStateType {
+  globalSetting: {
+    botTableAutoUpdateTime: string
+  }
 }

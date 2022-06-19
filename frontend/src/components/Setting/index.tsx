@@ -2,15 +2,17 @@ import { Card, Row, Col, Slider, Select, Form, Input, Button, notification } fro
 import {
   MinusCircleOutlined
 } from '@ant-design/icons';
-import { useEffect, useRef, useState } from 'react';
-import { GlobalSettingStateType, ServerResponseType } from '../../common/DataType';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { AppStateType, GlobalSettingStateType, ServerResponseType } from '../../common/DataType';
 import { getGlobalSetting, setGlobalSetting } from './services';
+import { AppContext } from '../../providers';
 import { changeResponseToClient } from '../../common/Utility';
 
 const { Option } = Select
 
 export default () => {
 
+  const { appState, setAppState } = useContext(AppContext)
   const [state, setState] = useState<GlobalSettingStateType>({
     botTableTime: '30',
     protectTime: '30',
@@ -32,6 +34,17 @@ export default () => {
       return
     }
   }, [])
+
+  useEffect(() => {
+    const botTableTime = state.botTableTime
+
+    setAppState((state: AppStateType) => ({
+      ...state,
+      globalSetting: {
+        botTableAutoUpdateTime: botTableTime
+      }
+    }))
+  }, [state])
 
   const submit = (key: string, value: any) => {
     let params = {
