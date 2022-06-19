@@ -2,8 +2,7 @@ import { Modal, Input, Button, notification } from 'antd';
 import { useContext } from 'react';
 import { BotRowType, BotStateType, ServerResponseType } from '../../common/DataType';
 import { BotContext } from './providers';
-import { setComment, getBotTable } from './services';
-import { changeResponseToClient } from '../../common/Utility';
+import { setComment } from './services';
 
 export default () => {
   const { state, setState } = useContext(BotContext)

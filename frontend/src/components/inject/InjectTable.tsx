@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Table, Pagination, Card, Select, notification, Spin } from 'antd';
+import { Table, Pagination, Card, Select, notification, Spin, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { InjectContext } from './providers';
 import { InjectRowType, InjectStateType, ServerResponseType } from '../../common/DataType';
@@ -18,20 +18,11 @@ const App: React.FC = () => {
   const initUpdate = useRef(true)
 
   useEffect(() => {
-    if (initUpdate.current) {
-      load()
-
-      initUpdate.current = false
-      return
-    }
-  }, [])
-
-  useEffect(() => {
     load()
   }, [state.table.page, state.table.perPage])
 
   const load = () => {
-    setState((state: InjectStateType) => ({...state, loading: true}))
+    setState((state: InjectStateType) => ({ ...state, loading: true }))
 
     getInjectList(state.table.page, state.table.perPage).then((res: any) => {
       setState((state: InjectStateType) => ({
@@ -86,7 +77,14 @@ const App: React.FC = () => {
       title: 'Action',
       key: 'action',
       render: (record: InjectRowType) => (
-        <DeleteOutlined onClick={() => handleDeleteInject(record.id)} className='!text-red-500 cursor-pointer hover:!text-red-600 duration-300' />
+        <Popconfirm
+          title="Are you sure to delete this inject?"
+          onConfirm={() => handleDeleteInject(record.id)}
+          okText="Yes"
+          cancelText="No"
+        >
+          <DeleteOutlined className='!text-red-500 cursor-pointer hover:!text-red-600 duration-300' />
+        </Popconfirm>
       ),
     },
   ];
@@ -103,9 +101,9 @@ const App: React.FC = () => {
         <Option value='50'>50 / page</Option>
       </Select>
       <Spin spinning={state.loading}>
-      <Table columns={columns} dataSource={state.table.rows} pagination={false}/>
+        <Table columns={columns} dataSource={state.table.rows} pagination={false} />
       </Spin>
-      <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: InjectStateType) => ({...state, table: {...state.table, page: page}}))}/>
+      <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: InjectStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
     </Card>
   )
 }
