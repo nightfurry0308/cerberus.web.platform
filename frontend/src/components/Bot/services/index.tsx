@@ -20,6 +20,8 @@ export const getBotTable = (page: number = 1, perPage: number = 10, botId: strin
       triggeredInject: triggeredInject
     }
 
+    console.log(params)
+
     api(params).done(res).catch(rej)
   })
 }

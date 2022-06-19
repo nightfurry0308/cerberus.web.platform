@@ -1,7 +1,9 @@
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
+import { useState } from 'react';
 import Builder from "../../components/home/Builder";
 
 const Home = () => {
+    const [imageLoading, setImageLoading] = useState(true)
 
     return (
         <>
@@ -10,7 +12,9 @@ const Home = () => {
             </h2>
             <Row>
                 <Col offset={4} span={8}>
-                    <img src="./images/home.png" alt="" className='w-4/5 mt-8' />
+                    <Spin spinning={imageLoading}>
+                        <img src="./images/home.png" alt="" className='w-4/5 mt-8' onLoad={() => {setImageLoading(false)}}/>
+                    </Spin>
                 </Col>
                 <Col span={8}>
                     <Builder />

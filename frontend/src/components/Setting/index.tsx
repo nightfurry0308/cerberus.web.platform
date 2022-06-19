@@ -79,7 +79,7 @@ export default () => {
               <Option value="50">50 sec</Option>
               <Option value="60">60 sec</Option>
             </Select>
-            <small className='text-stone-500'>This is used only to automatically update the bots table.</small>
+            <small className='text-stone-500'></small>
           </Card>
         </Col>
         <Col className="gutter-row" span={8}>

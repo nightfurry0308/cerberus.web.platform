@@ -55,7 +55,7 @@ export default () => {
               renderItem={(item: BankLogRowType) => (
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
                     title={<span className="text-orange-800">{item.botId}</span>}
                     description={item.logs}
                   />

