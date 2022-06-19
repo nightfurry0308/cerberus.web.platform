@@ -73,6 +73,7 @@ export interface BotRowType {
 export interface BotStateType {
   botId: string
   botLogModal: false
+  botTableAutoUpdateTime: string
   botLogType: string
   botTypeLogs: []
   selectedBots: []

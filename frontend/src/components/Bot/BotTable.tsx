@@ -18,7 +18,6 @@ import {
     DollarCircleOutlined,
     BoxPlotOutlined,
     EyeInvisibleOutlined,
-    PlayCircleOutlined,
     InfoCircleOutlined,
     SettingOutlined,
     MessageOutlined
@@ -288,16 +287,16 @@ const BotsTable: React.FC = () => {
                     return <span className='text-green-500'>Now</span>;
                 }
                 if (time < 60) {
-                    return <span className='text-green-900'>{time}</span>;
+                    return <span className='text-blue-500'>{time} seconds</span>;
                 }
                 else if (time < 3600) {
                     return <span className='text-orange-500'>{Math.floor(time / 60)} minutes</span>;
                 }
                 else if (time < 86400) {
-                    return <span className='text-orange-900'>{Math.floor(time / 60 / 60)} hours</span>;
+                    return <span className='text-red-500'>{Math.floor(time / 60 / 60)} hours</span>;
                 }
                 else {
-                    return <span className='text-red-500'>{Math.floor(time / 60 / 60 / 24)} days</span>;
+                    return <span className='text-stone-500'>{Math.floor(time / 60 / 60 / 24)} days</span>;
                 }        
             }
         },
@@ -305,6 +304,7 @@ const BotsTable: React.FC = () => {
             title: 'Android',
             dataIndex: 'version',
             render: (version: string) => {
+                
                 return (
                     <div><Tag>Android {version}</Tag></div>
                 )
@@ -354,40 +354,7 @@ const BotsTable: React.FC = () => {
 
     const rowSelection: TableRowSelection<BotRowType> = {
         selectedRowKeys,
-        onChange: onSelectChange,
-        // selections: [
-        //     Table.SELECTION_ALL,
-        //     Table.SELECTION_INVERT,
-        //     Table.SELECTION_NONE,
-        //     {
-        //         key: 'odd',
-        //         text: 'Select Odd Row',
-        //         onSelect: changableRowKeys => {
-        //             let newSelectedRowKeys = [];
-        //             newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-        //                 if (index % 2 !== 0) {
-        //                     return false;
-        //                 }
-        //                 return true;
-        //             });
-        //             setSelectedRowKeys(newSelectedRowKeys);
-        //         },
-        //     },
-        //     {
-        //         key: 'even',
-        //         text: 'Select Even Row',
-        //         onSelect: changableRowKeys => {
-        //             let newSelectedRowKeys = [];
-        //             newSelectedRowKeys = changableRowKeys.filter((_, index) => {
-        //                 if (index % 2 !== 0) {
-        //                     return true;
-        //                 }
-        //                 return false;
-        //             });
-        //             setSelectedRowKeys(newSelectedRowKeys);
-        //         },
-        //     },
-        // ],
+        onChange: onSelectChange
     };
 
     return (

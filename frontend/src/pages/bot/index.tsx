@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card, Affix } from 'antd';
 import BotTable from "../../components/Bot/BotTable";
 import BotSearch from "../../components/Bot/BotSearch";
 import { BotProvider } from '../../components/Bot/providers';
@@ -21,7 +21,9 @@ const InjectList = () => {
             <BotInfo />
           </Card>
         </div>
-        <BotTab />
+        <Affix offsetBottom={8}>
+          <BotTab />
+          </Affix>
       </BotProvider>
     </>)
 };

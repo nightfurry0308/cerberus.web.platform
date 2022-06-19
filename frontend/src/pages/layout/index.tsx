@@ -1,4 +1,4 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, BackTop } from 'antd';
 import { Route, Link, Routes } from 'react-router-dom';
 
 import "./index.style.css"
@@ -68,6 +68,9 @@ const App = () => {
                     <Route path="/bot" element={<Bot />} />
                 </Routes>
             </Content>
+            <BackTop>
+                <div className='bg-stone-800 h-10 w-10 rounded-lg text-center leading-10'>UP</div>
+            </BackTop>
             <Footer className="text-center">
                 Cerberus @2022
             </Footer>

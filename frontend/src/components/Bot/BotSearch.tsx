@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef } from 'react';
-import { Input, Checkbox, Tag } from 'antd';
+import { useContext, useEffect } from 'react';
+import { Input, Checkbox, Tag, Affix } from 'antd';
 import { BotContext } from './providers';
 import { BotStateType } from '../../common/DataType';
 import { getMainStats } from './services';
@@ -20,6 +20,7 @@ export default () => {
 
   return (
     <div className='mb-4 mt-4 text-center w-[600px] m-auto'>
+      <Affix offsetTop={20}>
       <div className='mb-2 m-auto'>
         <Tag color='cyan'>Bots {state.stats.bots}</Tag>
         <Tag color='success'>Online {state.stats.online}</Tag>
@@ -27,6 +28,7 @@ export default () => {
         <Tag color='warning'>Dead {state.stats.dead}</Tag>
         <Tag color='lime'>Bank {state.stats.banks}</Tag>
       </div>
+      </Affix>
       <div className='flex'>
         <Input placeholder='ID' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, botId: e.target.value } }))} />
         <Input placeholder='Country Code' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, country: e.target.value } }))} />
