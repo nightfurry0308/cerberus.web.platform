@@ -8,7 +8,6 @@ export const BotProvider = ({ children }: { children: any }) => {
     botId: '',
     selectedBots: [],
     loading: true,
-    botTableAutoUpdateTime: '0',
     botSettingModal: false,
     botLogModal: false,
     botLogType: '',

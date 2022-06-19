@@ -20,8 +20,6 @@ export const getBotTable = (page: number = 1, perPage: number = 10, botId: strin
       triggeredInject: triggeredInject
     }
 
-    console.log(params)
-
     api(params).done(res).catch(rej)
   })
 }
@@ -116,8 +114,6 @@ export const getLog = (botId: string, logType: string) => {
       botId: botId,
       logType: logType
     }
-
-    console.log(params)
 
     api(params).done(res).catch(rej)
   })

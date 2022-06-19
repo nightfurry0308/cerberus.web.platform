@@ -71,7 +71,6 @@ export default () => {
     }))
 
     getLog(state.botId, logType).then((res: any) => {
-      console.log("res", res)
 
       setState((state: BotStateType) => ({
         ...state,
