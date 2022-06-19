@@ -1,49 +1,22 @@
 import { useContext } from "react";
-import { Form, Input, Button, Upload, UploadProps, notification, Card } from 'antd';
+import { Form, Input, Button, notification, Card } from 'antd';
 import { InjectContext } from './providers';
 import { InjectStateType, ServerResponseType } from "../../common/DataType";
 import { createInject, getInjectList } from "./services";
+import FileInput from "../common/FileInput";
 
 export default () => {
   const { state, setState } = useContext(InjectContext)
 
-  const PNGProps: UploadProps = {
-    beforeUpload: file => {
-      const isPNG = file.type === 'image/png';
-      if (!isPNG) {
-        notification['error']({
-          message: 'ERROR',
-          description: `${file.name} is not a png file.`,
-        });
-      }
-
-      return isPNG || Upload.LIST_IGNORE;
-    }
-  };
-
-  const HTMLProps: UploadProps = {
-    beforeUpload: file => {
-      const isHTML = file.type === 'text/html';
-      if (!isHTML) {
-        notification['error']({
-          message: 'ERROR',
-          description: `${file.name} is not a HTML file.`,
-        });
-
-      }
-      return isHTML || Upload.LIST_IGNORE;
-    }
-  }
-
-  const handleHTMLFile = (file: any) => {
+  const handleHTMLFile = (e: any) => {
     try {
-      let HTMLFile = file.file;
+      let HTMLFile = e.target.files[0];
 
       if (HTMLFile.type === "text/html") {
 
         let reader = new FileReader();
 
-        reader.readAsDataURL(HTMLFile.originFileObj);
+        reader.readAsDataURL(HTMLFile);
 
         reader.onload = function (evt: any) {
           setState((state: InjectStateType) => ({
@@ -66,15 +39,15 @@ export default () => {
     }
   }
 
-  const handlePNGFile = (file: any) => {
+  const handlePNGFile = (e: any) => {
     try {
-      let PNGFILE = file.file;
+      let PNGFILE = e.target.files[0]
 
       if (PNGFILE.type === "image/png") {
 
         let reader = new FileReader();
 
-        reader.readAsDataURL(PNGFILE.originFileObj);
+        reader.readAsDataURL(PNGFILE);
 
         reader.onload = function (evt: any) {
           let image = new Image();
@@ -83,17 +56,16 @@ export default () => {
 
           image.onload = function () {
             if (image.width >= 50 && image.height >= 50 && image.width <= 500 && image.height <= 500) {
-
               setState((state: InjectStateType) => ({
                 ...state,
                 png: evt.target.result.split(',')[1]
               }))
             }
             else {
-              // notification['warning']({
-              //     message: 'warning',
-              //     description: 'Image minimum size 50x50px, max size 500x500px',
-              // });
+              notification['warning']({
+                  message: 'warning',
+                  description: 'Image minimum size 50x50px, max size 500x500px',
+              });
             }
           };
         };
@@ -101,20 +73,26 @@ export default () => {
         };
       }
       else {
+        notification['warning']({
+          message: 'warning',
+          description: 'Please select only PNG files',
+        });
       }
     }
     catch (err: any) {
     }
   }
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
   const submit = () => {
+    if (state.app == '' || state.html == '' || state.png == '') {
+      notification.warn({
+        message: 'Warn',
+        description: 'Please input all items'
+      })
+
+      return 
+    }
+
     createInject(state.app, state.html, state.png).then((res: ServerResponseType) => {
       notification['info']({
         message: res.type.toUpperCase(),
@@ -147,7 +125,6 @@ export default () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={submit}
           autoComplete="off"
         >
           <Form.Item
@@ -166,35 +143,15 @@ export default () => {
           <Form.Item
             label="HTML File"
             name="html"
-            rules={[
-              {
-                required: true,
-                message: 'Please input HTML file.',
-              },
-            ]}
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
           >
-            <Upload onChange={handleHTMLFile} maxCount={1} {...HTMLProps}>
-              <Button>HTML File</Button>
-            </Upload>
+            <FileInput label="HTML File" onChange={handleHTMLFile}/>
           </Form.Item>
 
           <Form.Item
             label="PNG Icon File"
             name="png"
-            rules={[
-              {
-                required: true,
-                message: 'Please input PNG file.',
-              },
-            ]}
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
           >
-            <Upload {...PNGProps} onChange={handlePNGFile} maxCount={1}>
-              <Button>PNG File</Button>
-            </Upload>
+            <FileInput label="PNG File" onChange={handlePNGFile}/>
           </Form.Item>
 
           <Form.Item
@@ -203,7 +160,7 @@ export default () => {
               span: 14,
             }}
           >
-            <Button type="primary" htmlType="submit" ghost className="float-right">
+            <Button type="primary" onClick={submit} htmlType="submit" ghost className="float-right">
               Submit
             </Button>
           </Form.Item>
