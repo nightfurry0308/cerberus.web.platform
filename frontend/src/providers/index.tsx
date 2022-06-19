@@ -6,7 +6,8 @@ export const AppContext = createContext<any>({})
 export const AppProvider = ({ children }: { children: any }) => {
   const [appState, setAppState] = useState<AppStateType>({
     globalSetting: {
-      botTableAutoUpdateTime: '0'
+      botTableAutoUpdateTime: '0',
+      urls: []
     }
   })
 

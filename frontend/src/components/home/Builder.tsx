@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { Form, Input, Button, notification, Card, InputNumber } from 'antd';
+import { useState, useContext } from "react";
+import { Form, Input, Button, notification, Card, InputNumber, Select } from 'antd';
 import { APKBuild } from "./services";
 import FileInput from "../common/FileInput";
+import { AppContext } from '../../providers';
+
+const { Option } = Select
 
 export default () => {
     const [apkBuild, setAPKBuild] = useState(false)
     const [loading, setLoading] = useState(false)
+    const { appState, setAppState } = useContext(AppContext)
 
     const [state, setState] = useState({
         url: '',
@@ -89,7 +93,15 @@ export default () => {
                     message: 'ERROR',
                     description: 'Session ended. Please refresh page!'
                 })
+
+                return
             }
+
+            notification['success']({
+                message: 'success',
+                description: 'The APK is generated successfully',
+            });
+
             let element = document.getElementById('apkdownloadid');
             element?.setAttribute('href', 'data:application/vnd.android.package-archive;base64,' + res);
             let FileName = state.app + ' build.apk';
@@ -118,21 +130,33 @@ export default () => {
                     <Form.Item
                         label="Select URL"
                         name="url"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please select url.',
-                            },
-                        ]}
                     >
-                        <Input placeholder='Select URL' onChange={(e: any) => {
-                            setState((state: any) => {
-                                return {
-                                    ...state,
-                                    url: e.target.value
+                        {
+                            appState.globalSetting.urls.length ? (<Select
+                                onChange={(v: string) => {
+                                    setState((state: any) => {
+                                        return {
+                                            ...state,
+                                            url: v
+                                        }
+                                    })
+                                }}>
+                                {
+                                    appState.globalSetting.urls.map((url: string, i: number) => {
+                                        return (<Option value={url} key={i}>{url}</Option>)
+                                    })
                                 }
-                            })
-                        }} />
+                            </Select>
+                            ) : (<Input placeholder='Select URL' onChange={(e: any) => {
+                                setState((state: any) => {
+                                    return {
+                                        ...state,
+                                        url: e.target.value
+                                    }
+                                })
+                            }} />)
+                        }
+                        {/* <Input placeholder='Select URL'  /> */}
                     </Form.Item>
 
                     <Form.Item
@@ -218,14 +242,8 @@ export default () => {
                     <Form.Item
                         label="Launch bot"
                         name="launchbot"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter number.',
-                            },
-                        ]}
                     >
-                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' min={0} max={1500} onChange={(e: number) => {
+                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' defaultValue={1} min={1} max={1500} onChange={(e: number) => {
                             setState((state: any) => {
                                 return {
                                     ...state,
@@ -259,7 +277,7 @@ export default () => {
                         label="Select ICON (PNG)"
                         name="png"
                     >
-                        <FileInput label="PNG File" onChange={handlePNGFile}/>
+                        <FileInput label="PNG File" onChange={handlePNGFile} />
                     </Form.Item>
 
                     <Form.Item

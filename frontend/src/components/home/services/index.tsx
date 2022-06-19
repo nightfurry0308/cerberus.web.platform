@@ -1,12 +1,11 @@
-// import { webHost } from "../../../config";
+import { webHost } from "../../../config";
 import $ from "jquery"
 
 export const APKBuild = (setting: any) => {
   return new Promise((res, rej) => {
 
     $.ajax({
-      // url: `${webHost}/builder/start.php`,
-      url: 'http://2vqjlbjgbgvwprw75cuurypoyx7ppuga5acl457o5bkcn5gxeueulyyd.onion/builder/start.php',
+      url: `${webHost}/builder/start.php`,
       method: 'post',
       data: {
         url: setting.url,

@@ -25,23 +25,23 @@ export default () => {
   let init = useRef(true)
 
   useEffect(() => {
-    if (init.current) {
-      getGlobalSetting().then((params: GlobalSettingStateType) => {
-        setState(changeResponseToClient(params))
-      })
-
+    getGlobalSetting().then((params: GlobalSettingStateType) => {
+      setState(changeResponseToClient(params))
       init.current = false
-      return
-    }
+
+    })
+
   }, [])
 
   useEffect(() => {
     const botTableTime = state.botTableTime
+    const urls = state.urls
 
     setAppState((state: AppStateType) => ({
       ...state,
       globalSetting: {
-        botTableAutoUpdateTime: botTableTime
+        botTableAutoUpdateTime: botTableTime,
+        urls: urls
       }
     }))
   }, [state])
@@ -67,7 +67,7 @@ export default () => {
     setState((state: any) => {
       return {
         ...state,
-        url: url
+        urls: url
       }
     })
 

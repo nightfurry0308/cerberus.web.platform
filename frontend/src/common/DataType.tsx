@@ -145,5 +145,6 @@ export interface LogStateType {
 export interface AppStateType {
   globalSetting: {
     botTableAutoUpdateTime: string
+    urls: string[]
   }
 }

@@ -14,7 +14,8 @@ function App() {
     getGlobalSetting().then((params: GlobalSettingStateType) => {      
       setAppState({
         globalSetting: {
-          botTableAutoUpdateTime: changeResponseToClient(params).botTableTime
+          botTableAutoUpdateTime: changeResponseToClient(params).botTableTime,
+          urls: changeResponseToClient(params).urls
         }
       })
     })
