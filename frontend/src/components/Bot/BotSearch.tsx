@@ -30,17 +30,17 @@ export default () => {
       </div>
       </Affix>
       <div className='flex'>
-        <Input placeholder='ID' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, botId: e.target.value } }))} />
-        <Input placeholder='Country Code' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, country: e.target.value } }))} />
-        <Input placeholder='App' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, app: e.target.value } }))} />
-        <Input placeholder='Operator' className='!mb-2 !mr-2' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, operator: e.target.value } }))} />
+        <Input placeholder='ID' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, botId: e.target.value } }))} />
+        <Input placeholder='Country Code' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, country: e.target.value } }))} />
+        <Input placeholder='App' className='!mb-2 !mr-1' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, app: e.target.value } }))} />
+        <Input placeholder='Operator' className='!mb-2 !mr-2' onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, operator: e.target.value } }))} />
       </div>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, online: e.target.checked } }))}>Online</Checkbox>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, offline: e.target.checked } }))}>Offline</Checkbox>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, dead: e.target.checked } }))}>Dead</Checkbox>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, hasInjects: e.target.checked } }))}>Has Injects</Checkbox>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, hasNotInjects: e.target.checked } }))}>Has not injects</Checkbox>
-      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, search: { ...state.search, triggeredInject: e.target.checked } }))}>Triggered inject</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, online: e.target.checked } }))}>Online</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, offline: e.target.checked } }))}>Offline</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, dead: e.target.checked } }))}>Dead</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, hasInjects: e.target.checked } }))}>Has Injects</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, hasNotInjects: e.target.checked } }))}>Has not injects</Checkbox>
+      <Checkbox onChange={(e: any) => setState((state: BotStateType) => ({ ...state, table: {...state.table, page: 1}, search: { ...state.search, triggeredInject: e.target.checked } }))}>Triggered inject</Checkbox>
     </div>
   )
 }

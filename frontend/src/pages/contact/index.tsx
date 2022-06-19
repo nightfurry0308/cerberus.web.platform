@@ -18,10 +18,10 @@ export default () => {
 
   return (
     <>
-      <h2 className='text-center mb-8 text-4xl'>
+      <h2 className='text-center mb-4 text-4xl'>
         Contact Us
       </h2>
-      <p className='m-auto w-[420px] text-center text-base mb-8 font-medium'>If you have any questions, please contact to forum profile via PM. profile XSS.IS, TOR, profile EXPLOIT, TOR</p>
+      <p className='m-auto w-[420px] text-center mb-4 text-stone-400'>If you have any questions, please contact to forum profile via PM. profile XSS.IS, TOR, profile EXPLOIT, TOR</p>
       <Row className='mb-8 !w-[1000px] !m-auto'>
         <Card size="small" className='!rounded-xl'>
           <h2 className='text-center text-xl mt-4 mb-8 text-stone-400'>Support Info</h2>

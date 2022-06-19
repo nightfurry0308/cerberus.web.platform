@@ -25,11 +25,14 @@ export default () => {
   let init = useRef(true)
 
   useEffect(() => {
-    getGlobalSetting().then((params: GlobalSettingStateType) => {
-      setState(changeResponseToClient(params))
+    if (init.current) {
+      getGlobalSetting().then((params: GlobalSettingStateType) => {
+        setState(changeResponseToClient(params))
+      })
 
       init.current = false
-    })
+      return
+    }
   }, [])
 
   useEffect(() => {
@@ -50,7 +53,7 @@ export default () => {
     }
 
     setGlobalSetting(params).then((res: ServerResponseType) => {
-      notification.info({
+      key === 'urls' && notification.info({
         message: res.type.toUpperCase(),
         description: res.message
       })
@@ -77,7 +80,7 @@ export default () => {
         <Col className="gutter-row" span={8}>
           <Card size="small" title="Table settings" className='h-56 !rounded-xl hover:!shadow-red-600 shadow-md duration-300'>
             <h3 className='text-stone-400'>Select auto update delay</h3>
-            <Slider className='!mb-8' value={parseInt(state.botTableTime)} onChange={(v: number) => { setState((state: GlobalSettingStateType) => ({ ...state, botTableTime: v.toString() })); submit('botTableTime', v.toString()) }} tipFormatter={(value: number | undefined) => `${value} s`} />
+            <Slider className='!mb-8' min={0} max={30} value={parseInt(state.botTableTime)} onChange={(v: number) => { setState((state: GlobalSettingStateType) => ({ ...state, botTableTime: v.toString() })); submit('botTableTime', v.toString()) }} tipFormatter={(value: number | undefined) => `${value} s`} />
             <small className='text-stone-500'>This is used only to automatically update the bots table.</small>
           </Card>
         </Col>
@@ -87,11 +90,27 @@ export default () => {
             <Select className='w-full !mb-4' defaultValue={state.injectTime.toString()} value={state.injectTime.toString()} onChange={(v: string) => { setState((state: GlobalSettingStateType) => ({ ...state, injectTime: v })); submit('injectTime', v.toString()) }}>
               <Option value="0">Off</Option>
               <Option value="10">10 sec</Option>
+              <Option value="15">15 sec</Option>
               <Option value="20">20 sec</Option>
               <Option value="30">30 sec</Option>
-              <Option value="40">40 sec</Option>
-              <Option value="50">50 sec</Option>
-              <Option value="60">60 sec</Option>
+              <Option value="45">45 sec</Option>
+              <Option value="60">1 min</Option>
+              <Option value="120">2 min</Option>
+              <Option value="180">3 min</Option>
+              <Option value="240">4 min</Option>
+              <Option value="300">5 min</Option>
+              <Option value="360">6 min</Option>
+              <Option value="480">8 min</Option>
+              <Option value="600">10 min</Option>
+              <Option value="900">15 min</Option>
+              <Option value="1800">30 min</Option>
+              <Option value="2700">45 min</Option>
+              <Option value="3600">1 hour</Option>
+              <Option value="7200">2 hour</Option>
+              <Option value="14400">4 hour</Option>
+              <Option value="28800">8 hour</Option>
+              <Option value="36000">10 hour</Option>
+              <Option value="86400">24 hour</Option>
             </Select>
             <small className='text-stone-500'></small>
           </Card>
@@ -102,10 +121,23 @@ export default () => {
             <Select className='w-full !mb-4' defaultValue={state.protectTime.toString()} value={state.protectTime.toString()} onChange={(v: string) => { setState((state: GlobalSettingStateType) => ({ ...state, protectTime: v })); submit('protectTime', v.toString()) }}>
               <Option value="0">Disable</Option>
               <Option value="10">10 sec</Option>
+              <Option value="15">15 sec</Option>
               <Option value="20">20 sec</Option>
               <Option value="30">30 sec</Option>
-              <Option value="40">40 sec</Option>
-              <Option value="50">50 sec</Option>
+              <Option value="45">45 sec</Option>
+              <Option value="60">1 min</Option>
+              <Option value="120">2 min</Option>
+              <Option value="180">3 min</Option>
+              <Option value="240">4 min</Option>
+              <Option value="300">5 min</Option>
+              <Option value="360">6 min</Option>
+              <Option value="480">8 min</Option>
+              <Option value="600">10 min</Option>
+              <Option value="1800">30 min</Option>
+              <Option value="3600">1 hour</Option>
+              <Option value="10800">3 hour</Option>
+              <Option value="21600">6 hour</Option>
+              <Option value="43200">12 hour</Option>
             </Select>
             <small className='text-stone-500'>The time after which the window will be displayed with a request to disable Play Protect.</small>
           </Card>

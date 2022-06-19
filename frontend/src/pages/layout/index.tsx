@@ -9,6 +9,9 @@ import Contact from "../contact"
 import Log from "../log"
 import Inject from "../inject"
 import Bot from "../bot"
+import {
+    VerticalAlignTopOutlined
+} from '@ant-design/icons';
 
 import { MenuItemType } from '../../common/DataType';
 import Login from '../auth/login';
@@ -69,7 +72,7 @@ const App = () => {
                 </Routes>
             </Content>
             <BackTop>
-                <div className='bg-stone-800 h-10 w-10 rounded-lg text-center leading-10'>UP</div>
+                <div className='bg-stone-800 h-10 w-10 rounded-full text-center !border-stone-500 border leading-10'><VerticalAlignTopOutlined className='text-lg !font-extrabold'/></div>
             </BackTop>
             <Footer className="text-center">
                 Cerberus @2022

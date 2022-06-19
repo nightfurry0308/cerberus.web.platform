@@ -69,7 +69,7 @@ export default () => {
 
   return (
     <div className="h-16 w-full">
-      <div className="h-16 flex rounded-xl bg-zinc-800 m-auto w-fit">
+      <div className="h-16 flex rounded-xl bg-zinc-800 m-auto w-fit border border-stone-500">
         <TabButton title="SMS" ICON={MailOutlined} value='sms' />
         <TabButton title="USSD" ICON={NumberOutlined} value='ussd' />
         <TabButton title="Call" ICON={PhoneOutlined} value='call' />

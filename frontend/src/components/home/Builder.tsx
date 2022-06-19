@@ -1,20 +1,7 @@
 import { useState } from "react";
-import { Form, Input, Button, Upload, UploadProps, notification, Card, InputNumber } from 'antd';
+import { Form, Input, Button, notification, Card, InputNumber } from 'antd';
 import { APKBuild } from "./services";
-
-const PNGProps: UploadProps = {
-    beforeUpload: file => {
-        const isPNG = file.type === 'image/png';
-        if (!isPNG) {
-            notification['error']({
-                message: 'success',
-                description: `${file.name} is not a png file.`,
-            });
-        }
-
-        return isPNG || Upload.LIST_IGNORE;
-    }
-};
+import FileInput from "../common/FileInput";
 
 export default () => {
     const [apkBuild, setAPKBuild] = useState(false)
@@ -32,15 +19,15 @@ export default () => {
         password: ''
     })
 
-    const handlePNGFile = (file: any) => {
+    const handlePNGFile = (e: any) => {
         try {
-            let PNGFILE = file.file;
+            let PNGFILE = e.target.files[0];
 
             if (PNGFILE.type === "image/png") {
 
                 let reader = new FileReader();
 
-                reader.readAsDataURL(PNGFILE.originFileObj);
+                reader.readAsDataURL(PNGFILE);
 
                 reader.onload = function (evt: any) {
                     let image = new Image();
@@ -57,16 +44,16 @@ export default () => {
                                 }
                             })
 
-                            // notification['success']({
-                            //     message: 'success',
-                            //     description: 'Load PNG file complete',
-                            // });
+                            notification['success']({
+                                message: 'success',
+                                description: 'Load PNG file complete',
+                            });
                         }
                         else {
-                            // notification['warning']({
-                            //     message: 'warning',
-                            //     description: 'Image minimum size 50x50px, max size 500x500px',
-                            // });
+                            notification['warning']({
+                                message: 'warning',
+                                description: 'Image minimum size 50x50px, max size 500x500px',
+                            });
                         }
                     };
                 };
@@ -112,13 +99,6 @@ export default () => {
             setLoading(false)
         })
     }
-
-    const normFile = (e: any) => {
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e?.fileList;
-    };
 
     return (
         <>
@@ -278,18 +258,8 @@ export default () => {
                     <Form.Item
                         label="Select ICON (PNG)"
                         name="png"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input icon file!',
-                            },
-                        ]}
-                        valuePropName="fileList"
-                        getValueFromEvent={normFile}
                     >
-                        <Upload {...PNGProps} onChange={handlePNGFile} maxCount={1}>
-                            <Button>PNG File</Button>
-                        </Upload>
+                        <FileInput label="PNG File" onChange={handlePNGFile}/>
                     </Form.Item>
 
                     <Form.Item
