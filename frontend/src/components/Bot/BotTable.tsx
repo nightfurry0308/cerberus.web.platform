@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { Table, Select, Pagination, Spin, Tag, Button, notification } from 'antd';
+import { Table, Select, Pagination, Spin, Tag, Button, notification, Divider, Space, Input, Typography } from 'antd';
 import type { TableRowSelection } from 'antd/lib/table/interface';
 import type { ColumnsType } from 'antd/lib/table';
 import { BotRowType, BotStateType, ServerResponseType } from '../../common/DataType';
@@ -175,6 +175,8 @@ const BotsTable: React.FC = () => {
 
   useEffect(() => {
     load()
+
+    console.log(state.table)
   }, [state.table.perPage, state.table.page, state.search])
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -371,13 +373,41 @@ const BotsTable: React.FC = () => {
     onChange: onSelectChange
   };
 
+  const [items, setItems] = useState(['10', '20', '30', '50']);
+  const [perPage, setPerPage] = useState('');
+
+  const onChangePerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPerPage(event.target.value);
+  };
+
+  const addPerPage = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItems([...items, perPage]);
+    setPerPage('');
+  };
+
   return (
     <>
-      <Select className='!mb-2' defaultValue={state.table.perPage} value={state.table.perPage} onChange={(v: string) => setState((state: BotStateType) => ({ ...state, table: { ...state.table, perPage: v } }))}>
-        <Option value='10'>10 / page</Option>
-        <Option value='20'>20 / page</Option>
-        <Option value='30'>30 / page</Option>
-        <Option value='50'>50 / page</Option>
+      <Select
+        placeholder="Page Size"
+        className='w-36 !mb-2'
+        defaultValue={state.table.perPage} value={state.table.perPage} onChange={(v: string) => setState((state: BotStateType) => ({ ...state, table: { ...state.table, perPage: v } }))}
+        dropdownRender={menu => (
+          <>
+            {menu}
+            <Divider style={{ margin: '8px 0' }} />
+            <Space align="center" style={{ padding: '0 8px 4px' }}>
+              <Input placeholder="page size" value={perPage} onChange={onChangePerPage} />
+              <Typography.Link onClick={addPerPage} style={{ whiteSpace: 'nowrap' }}>
+                Add
+              </Typography.Link>
+            </Space>
+          </>
+        )}
+      >
+        {items.map(item => (
+          <Option key={item}>{item} / page</Option>
+        ))}
       </Select>
       <Button danger ghost className='float-right' onClick={handleDelete}>Delete Selected Bots</Button>
       <Spin spinning={state.loading}>
