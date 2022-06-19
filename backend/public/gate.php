@@ -8,21 +8,21 @@ echo 1; */
 define('key', 'PssTESTx0');
 
 // local
-define('url_global_server', 'http://localhost/Ejection/');
-define('server', 'localhost');
-define('db', 'cerberus');
-define('user', 'root');
-define('passwd', '');
+// define('url_global_server', 'http://localhost/Ejection/');
+// define('server', 'localhost');
+// define('db', 'cerberus');
+// define('user', 'root');
+// define('passwd', '');
 
 // cerberus
-// define('url_global_server', 'http://2vqjlbjgbgvwprw75cuurypoyx7ppuga5acl457o5bkcn5gxeueulyyd.onion/Ejection/');
+define('url_global_server', 'http://2vqjlbjgbgvwprw75cuurypoyx7ppuga5acl457o5bkcn5gxeueulyyd.onion/Ejection/');
 // define('passwd', 'x7YyBk2E');
 
 // define('url_global_server', 'http://4i4pwd4hvkeqpytkoz3gaeafemqpv4serdcn7yh3igaxgxrpdnhnyhyd.onion/Ejection/');
-// define('server', 'localhost');
-// define('db', 'bot');
-// define('user', 'non-root');
-// define('passwd', 'CL786Iy0ZKLt');
+define('server', 'localhost');
+define('db', 'bot');
+define('user', 'non-root');
+define('passwd', 'CL786Iy0ZKLt');
 
 date_default_timezone_set('UTC');
 
