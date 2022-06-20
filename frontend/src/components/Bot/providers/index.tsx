@@ -40,6 +40,7 @@ export const BotProvider = ({ children }: { children: any }) => {
       triggeredInject: false
     },
     stats: {
+      log: '0',
       bots: '0',
       online: '0',
       offline: '0',

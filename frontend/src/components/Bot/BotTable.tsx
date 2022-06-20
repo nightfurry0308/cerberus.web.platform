@@ -329,16 +329,19 @@ const BotsTable: React.FC = () => {
     {
       title: 'Bank',
       dataIndex: 'banks',
-      render: (banks: string) => {
+      render: (banks: string, record: any) => {
         let content = []
         if (banks != '') {
           content = banks.split(':')
-
           return (
             <>
-              {content.map(item => {
+              {content.map((item, i) => {
                 return (
-                  <div className='flex'><BankOutlined className='mt-1' /> <div className=''>&nbsp;{item}</div></div>
+                  <div className='flex'>
+                    <BankOutlined className='mt-1' />
+                    &nbsp;<img src={`data:image/gif;base64,${record.icons[i]}`} className='w-4 h-4 mt-1' />
+                    <div className=''>&nbsp;{item}</div>
+                  </div>
                 )
               })}
             </>

