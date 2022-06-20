@@ -101,7 +101,8 @@ export interface BotStateType {
     online: string,
     offline: string,
     dead: string,
-    banks: string
+    banks: string,
+    log: string
   }
   search: {
     botId: string,

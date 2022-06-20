@@ -27,6 +27,7 @@ export default () => {
         <Tag color='volcano'>Offline {state.stats.offline}</Tag>
         <Tag color='warning'>Dead {state.stats.dead}</Tag>
         <Tag color='lime'>Bank {state.stats.banks}</Tag>
+        <Tag color='magenta'>Log {state.stats.log}</Tag>
       </div>
       </Affix>
       <div className='flex'>
