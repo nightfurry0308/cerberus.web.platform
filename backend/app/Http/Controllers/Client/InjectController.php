@@ -30,8 +30,8 @@ class InjectController extends Controller
                 'key' => $row->id,
                 'id' => $row->id,
                 'app' => $row->app,
-                'html' => $row->html ? 1 : 0,
-                'png' => $row->png ? 1 : 0
+                'html' => $row->html,
+                'png' => $row->png
             ];
         }
 

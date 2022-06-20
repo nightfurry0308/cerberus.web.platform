@@ -5,9 +5,11 @@ import { InjectContext } from './providers';
 import { InjectRowType, InjectStateType, ServerResponseType } from '../../common/DataType';
 import {
   CheckCircleOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  EyeOutlined
 } from '@ant-design/icons';
 import { deleteInject, getInjectList } from './services';
+import PreviewModal from './PreviewModal';
 
 const { Option } = Select
 
@@ -17,8 +19,19 @@ const App: React.FC = () => {
 
   const initUpdate = useRef(true)
 
+  const preview = (html: string) => {
+    setState((state: InjectStateType) => {
+      return {
+        ...state,
+        previewModal: true,
+        previewData: html
+      }
+    })
+  }
+
   useEffect(() => {
     load()
+
   }, [state.table.page, state.table.perPage])
 
   const load = () => {
@@ -87,6 +100,13 @@ const App: React.FC = () => {
         </Popconfirm>
       ),
     },
+    {
+      title: '',
+      key: 'eye',
+      render: (record: InjectRowType) => (
+        <EyeOutlined className='!text-orange-500 cursor-pointer hover:!text-orange-600 duration-300' onClick={() => preview(record.html)} />
+      ),
+    },
   ];
 
   return (
@@ -104,6 +124,7 @@ const App: React.FC = () => {
         <Table columns={columns} dataSource={state.table.rows} pagination={false} />
       </Spin>
       <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: InjectStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
+      <PreviewModal/>
     </Card>
   )
 }

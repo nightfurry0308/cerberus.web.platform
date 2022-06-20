@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Form, Input, Button, notification, Card } from 'antd';
 import { InjectContext } from './providers';
 import { InjectStateType, ServerResponseType } from "../../common/DataType";
@@ -9,6 +9,7 @@ export default () => {
   const { state, setState } = useContext(InjectContext)
 
   const handleHTMLFile = (e: any) => {
+
     try {
       let HTMLFile = e.target.files[0];
 
@@ -84,6 +85,7 @@ export default () => {
   }
 
   const submit = () => {
+
     if (state.app == '' || state.html == '' || state.png == '') {
       notification.warn({
         message: 'Warn',
@@ -99,10 +101,22 @@ export default () => {
         description: res.message
       })
 
+
+      setState((state: InjectStateType) => {
+        return {
+          ...state,
+          app: ''
+        }
+      })
+  
+
       getInjectList(state.table.page, state.table.perPage).then((res: any) => {
         setState((state: InjectStateType) => ({
           ...state,
           loading: false,
+          app: '',
+          html: '',
+          png: '',
           table: {
             ...state.table,
             rows: res.rows,
@@ -122,14 +136,10 @@ export default () => {
           name="inject"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 14 }}
-          initialValues={{
-            remember: true,
-          }}
           autoComplete="off"
         >
           <Form.Item
             label="App Name"
-            name="app"
             rules={[
               {
                 required: true,

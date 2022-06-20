@@ -9,6 +9,8 @@ export const InjectProvider = ({ children }: { children: any }) => {
     html: '',
     png: '',
     loading: true,
+    previewData: '',
+    previewModal: false,
     table: {
       rows: [],
       count: 0,
