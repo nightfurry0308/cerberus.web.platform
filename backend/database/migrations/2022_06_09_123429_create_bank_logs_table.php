@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('bank_logs', function (Blueprint $table) {
             $table->id();
             $table->string('inject_id');
-            $table->string('application');
-            $table->longText('logs');
-            $table->longText('comment');
+            $table->string('application')->default('');
+            $table->longText('logs')->default('');
+            $table->longText('comment')->default('');
             $table->timestamps();
         });
     }

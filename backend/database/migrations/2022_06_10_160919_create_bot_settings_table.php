@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('bot_settings', function (Blueprint $table) {
             $table->id();
             $table->string('bot_id');
-            $table->string('hide_sms');
-            $table->string('lock_device');
-            $table->string('off_sound');
-            $table->string('key_logger');
-            $table->string('active_injection');
+            $table->string('hide_sms')->default('');
+            $table->string('lock_device')->default('');
+            $table->string('off_sound')->default('');
+            $table->string('key_logger')->default('');
+            $table->string('active_injection')->default('');
             $table->timestamps();
         });
     }

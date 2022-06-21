@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('private_key')->unique();
-            $table->string('code');
-            $table->string('role');
-            $table->integer('active');
+            $table->string('private_key')->default('');
+            $table->string('code')->default('');
+            $table->string('role')->default('');
+            $table->integer('active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

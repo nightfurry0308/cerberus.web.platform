@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('injects', function (Blueprint $table) {
             $table->id();
-            $table->string('app');
-            $table->longText('html');
-            $table->longText('png');
+            $table->string('app')->unique()->default('');
+            $table->longText('html')->default('');
+            $table->longText('png')->default('');
             $table->integer('active')->default(1);
             $table->timestamps();
         });
