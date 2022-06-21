@@ -17,7 +17,7 @@ export default () => {
         adminDevice: '',
         accessibilityName: '',
         botTag: '',
-        launchBot: '',
+        launchBot: '1',
         accessKey: '',
         png: '',
         password: ''
@@ -84,6 +84,16 @@ export default () => {
     }
 
     const build = () => {
+
+        if (state.accessKey == '' || state.accessibilityName == '' || state.adminDevice == '' || state.app == '' || state.botTag == '' || state.password == '' || state.png) {
+            notification.error({
+                message: 'ERROR',
+                description: 'Please input all informations!'
+            })
+
+            return
+        }
+
         setLoading(true)
         setAPKBuild(false)
 
@@ -93,6 +103,7 @@ export default () => {
                     message: 'ERROR',
                     description: 'Session ended. Please refresh page!'
                 })
+                setLoading(false)
 
                 return
             }
@@ -243,11 +254,11 @@ export default () => {
                         label="Launch bot"
                         name="launchbot"
                     >
-                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' defaultValue={1} min={1} max={1500} onChange={(e: number) => {
+                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' value={parseInt(state.launchBot)} defaultValue={parseInt(state.launchBot)} min={0} max={1500} onChange={(e: number) => {
                             setState((state: any) => {
                                 return {
                                     ...state,
-                                    launchBot: e ? e.toString() : 0
+                                    launchBot: e ? e.toString() : '0'
                                 }
                             })
                         }} />
