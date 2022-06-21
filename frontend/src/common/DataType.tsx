@@ -24,6 +24,7 @@ export interface InjectStateType {
   loading: boolean
   previewData: string
   previewModal: boolean
+  previewLoading: boolean
   table: {
     rows: InjectRowType[],
     count: number,

@@ -40,6 +40,8 @@ class RestAPIController extends Controller
                 return (new InjectController)->store($params);
             case 'deleteInject':
                 return (new InjectController)->destroy($params);
+            case 'showInject':
+                return (new InjectController)->show($params);
                 // bot
             case 'getBotTable':
                 return (new BotController)->index($params);
