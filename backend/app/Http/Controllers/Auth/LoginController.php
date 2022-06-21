@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Models\User;
-use Auth;
-use Request;
 
 class LoginController extends Controller
 {
@@ -39,35 +36,5 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
-    function postLogin(Request $request) {
-        
-    }
-
-    function login ($params) {
-        if (Auth::attempt(['email' => $params->username, 'password' => $params->password])) {
-            return Auth::user();
-        } else {
-            return false;
-        }
-    }
-
-    function register ($params) {
-        $user = new User;
-
-        $user->email = $params->username;
-        $user->name = $params->username;
-        $user->code = bcrypt($params->username);
-        $user->role = 0;
-        $user->active = true;
-        $user->private_key = bcrypt($params->username);
-        $user->password = bcrypt($user->password);
-
-        if ($user->save()) {
-            return $user;
-        } else {
-            return false;
-        }
     }
 }
