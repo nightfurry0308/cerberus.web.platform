@@ -81,6 +81,7 @@ class BotController extends Controller
         if ($country_code != "") {
             $paramsMySQL .= "(country like '%" . $country_code . "%') AND ";
         }
+
         if (substr($paramsMySQL, -5) == " AND ") {
             $paramsMySQL = substr($paramsMySQL, 0, -5);
         }
@@ -129,9 +130,7 @@ class BotController extends Controller
                     $inject = Inject::where('app', $bank)->first();
                     $icons[] = $inject ? $inject->png : "";
                 }
-
             }
-
             $result[] = [
                 'id' => $id,
                 'key' => $id,

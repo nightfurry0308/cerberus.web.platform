@@ -8,6 +8,7 @@ export const InjectProvider = ({ children }: { children: any }) => {
     app: '',
     html: '',
     png: '',
+    previewLoading: false,
     loading: true,
     previewData: '',
     previewModal: false,

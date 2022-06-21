@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Table, Pagination, Card, Select, notification, Spin, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { InjectContext } from './providers';
@@ -8,7 +8,7 @@ import {
   DeleteOutlined,
   EyeOutlined
 } from '@ant-design/icons';
-import { deleteInject, getInjectList } from './services';
+import { deleteInject, getInjectList, showInject } from './services';
 import PreviewModal from './PreviewModal';
 
 const { Option } = Select
@@ -17,15 +17,23 @@ const App: React.FC = () => {
 
   const { state, setState } = useContext(InjectContext)
 
-  const initUpdate = useRef(true)
-
-  const preview = (html: string) => {
+  const preview = (id: number) => {
     setState((state: InjectStateType) => {
       return {
         ...state,
-        previewModal: true,
-        previewData: html
+        previewLoading: true
       }
+    })
+
+    showInject(id).then((res: InjectRowType) => {
+      setState((state: InjectStateType) => {
+        return {
+          ...state,
+          previewModal: true,
+          previewData: res.html,
+          previewLoading: false
+        }
+      })
     })
   }
 
@@ -104,7 +112,7 @@ const App: React.FC = () => {
       title: '',
       key: 'eye',
       render: (record: InjectRowType) => (
-        <EyeOutlined className='!text-orange-500 cursor-pointer hover:!text-orange-600 duration-300' onClick={() => preview(record.html)} />
+        <EyeOutlined className='!text-orange-500 cursor-pointer hover:!text-orange-600 duration-300' onClick={() => preview(record.id)} />
       ),
     },
   ];
@@ -121,10 +129,12 @@ const App: React.FC = () => {
         <Option value='50'>50 / page</Option>
       </Select>
       <Spin spinning={state.loading}>
-        <Table columns={columns} dataSource={state.table.rows} pagination={false} />
+        <Spin spinning={state.previewLoading}>
+          <Table columns={columns} dataSource={state.table.rows} pagination={false} />
+        </Spin>
       </Spin>
       <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: InjectStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
-      <PreviewModal/>
+      <PreviewModal />
     </Card>
   )
 }

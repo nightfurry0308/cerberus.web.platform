@@ -1,4 +1,4 @@
-import { ServerResponseType } from "../../../common/DataType";
+import { InjectRowType, ServerResponseType } from "../../../common/DataType";
 import { api } from "../../../common/Utility";
 
 export const createInject = (app: string, html: string, png: string) => {
@@ -30,6 +30,17 @@ export const deleteInject = (id: number) => {
   return new Promise((res: (param: ServerResponseType) => void, rej) => {
     const params = {
       type: 'deleteInject',
+      id: id
+    }
+
+    api(params).done(res).catch(rej)
+  })
+}
+
+export const showInject = (id: number) => {
+  return new Promise((res: (params :InjectRowType) => void, rej) => {
+    const params = {
+      type: 'showInject',
       id: id
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Inject;
 
 use App\Http\Requests\InjectRequest;
-
+use Image;
 class InjectController extends Controller
 {
     /**
@@ -30,8 +30,8 @@ class InjectController extends Controller
                 'key' => $row->id,
                 'id' => $row->id,
                 'app' => $row->app,
-                'html' => $row->html,
-                'png' => $row->png
+                'html' => $row->html ? 1 : 0,
+                'png' => $row->png ? 1: 0
             ];
         }
 
@@ -54,13 +54,21 @@ class InjectController extends Controller
 
         $inject->app = $param->app;
         $inject->html = $param->html;
-        $inject->png = $param->png;
+
+        $path = 'images/temp/' . $param->app . '.png';
+        Image::make($param->png)->resize(16, 16)->encode('png')->save($path);
+
+        $inject->png = base64_encode(file_get_contents($path));
 
         if ($inject->save()) {
             return ['type' => 'success', 'message' => 'An Inject is created successfully'];
         } else {
             return ['type' => 'error', 'message' => 'Error is occuried. Please try again and contact the support team'];
         }
+    }
+
+    public function show($param) {
+        return Inject::find($param->id);
     }
 
     /**
