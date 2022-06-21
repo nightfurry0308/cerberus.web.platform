@@ -1,77 +1,72 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+<body>
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+    <div class="h-screen">
+        <form class="w-72 m-auto table h-screen" method="POST" action="{{ route('register') }}">
+            @csrf
+            <div class="table-cell align-middle">
+                <h2 class="text-3xl mb-1">Sign up</h2>
+                <p class="text-xs mb-4 text-stone-600">Stay updated on your professional world</p>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                <input id="email" type="email" class="p-2 border border-solid border-stone-400 w-full rounded"
+                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                    placeholder="Email">
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                @error('email')
+                    <span class="text-xs text-stone-500 absolute" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                <input id="name" type="name"
+                    class="p-2 border border-solid border-stone-400 w-full mt-4 rounded" name="name"
+                    value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Name">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                @error('name')
+                    <span class="text-xs text-stone-500 absolute" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                <input id="password" type="password"
+                    class="p-2 border border-solid border-stone-400 w-full mt-4 rounded" name="password" required
+                    autocomplete="current-password" placeholder="Password">
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                @error('password')
+                    <span class="text-xs text-stone-500 absolute" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                <input id="password-confirm" type="password"
+                    class="p-2 border border-solid border-stone-400 w-full mt-4 rounded" name="password_confirmation"
+                    required autocomplete="new-password" placeholder="Password confirm">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                <button type="submit" class="!bg-sky-600 text-white w-full p-2 rounded-full mt-4">
+                    {{ __('Sign up') }}
+                </button>
 
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <a href="{{ url('login') }}"
+                    class="!bg-white text-stone-500 w-full p-2 rounded-full block border border-solid border-stone-400 text-center mt-4">
+                    {{ __('Sign in') }}
+                </a>
             </div>
-        </div>
+
+
+        </form>
+
     </div>
-</div>
-@endsection
+
+</body>
+
+</html>
