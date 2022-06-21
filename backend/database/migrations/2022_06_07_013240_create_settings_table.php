@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('global_settings', function (Blueprint $table) {
             $table->id();
             $table->json('urls');
-            $table->string('save_id');
-            $table->integer('inject_time');
-            $table->integer('protect_time');
-            $table->integer('bot_table_time');
-            $table->string('push_title');
-            $table->string('push_text');
-            $table->string('cc_time');
-            $table->string('mail_time');
+            $table->string('save_id')->default('');
+            $table->integer('inject_time')->default(0);
+            $table->integer('protect_time')->default(0);
+            $table->integer('bot_table_time')->default(0);
+            $table->string('push_title')->default('');
+            $table->string('push_text')->default('');
+            $table->string('cc_time')->default('');
+            $table->string('mail_time')->default('');
             $table->timestamps();
         });
     }

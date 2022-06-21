@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('application_list_logs', function (Blueprint $table) {
             $table->id();
             $table->string('bot_id');
-            $table->text('log');
+            $table->text('log')->default('');
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ return new class extends Migration
         }
 
         Schema::table('bots', function (Blueprint $table) {
-            $table->string('version');            
+            $table->string('version')->default('');            
         });
     }
 
