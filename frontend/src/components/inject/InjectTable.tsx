@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Table, Pagination, Card, Select, notification, Spin, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import { InjectContext } from './providers';
@@ -37,15 +37,28 @@ const App: React.FC = () => {
     })
   }
 
+  // useEffect(() => {
+
+  //   console.log("hello")
+  //   load()
+
+  // }, [state.table.page, state.table.perPage])
+
+  let init = useRef(true)
+
   useEffect(() => {
-    load()
 
-  }, [state.table.page, state.table.perPage])
+    if (init.current) {
+      load()
+      
+      init.current = false
+    }
+  }, [])
 
-  const load = () => {
+  const load = (page = state.table.page, perPage = state.table.perPage) => {
     setState((state: InjectStateType) => ({ ...state, loading: true }))
 
-    getInjectList(state.table.page, state.table.perPage).then((res: any) => {
+    getInjectList(page, perPage).then((res: any) => {
       setState((state: InjectStateType) => ({
         ...state,
         loading: false,
@@ -122,7 +135,7 @@ const App: React.FC = () => {
       <h2 className='mb-2 text-xl text-center mt-2'>
         Inject Table
       </h2>
-      <Select className='!mb-2' defaultValue={state.table.perPage} value={state.table.perPage} onChange={(v: string) => setState((state: InjectStateType) => ({ ...state, table: { ...state.table, perPage: v } }))}>
+      <Select className='!mb-2' defaultValue={state.table.perPage} value={state.table.perPage} onChange={(perPage: string) => {setState((state: InjectStateType) => ({ ...state, table: { ...state.table, perPage: perPage } })); load(state.table.page, perPage)}}>
         <Option value='10'>10 / page</Option>
         <Option value='20'>20 / page</Option>
         <Option value='30'>30 / page</Option>
@@ -133,7 +146,7 @@ const App: React.FC = () => {
           <Table columns={columns} dataSource={state.table.rows} pagination={false} />
         </Spin>
       </Spin>
-      <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: InjectStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
+      <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => {setState((state: InjectStateType) => ({ ...state, table: { ...state.table, page: page } })); load(page, state.table.perPage)}} />
       <PreviewModal />
     </Card>
   )
