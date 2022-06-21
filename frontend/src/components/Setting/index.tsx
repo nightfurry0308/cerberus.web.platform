@@ -23,13 +23,19 @@ export default () => {
   })
 
   let init = useRef(true)
+  let initRequest = useRef(true)
 
   useEffect(() => {
-    getGlobalSetting().then((params: GlobalSettingStateType) => {
-      setState(changeResponseToClient(params))
-      init.current = false
 
-    })
+    if (initRequest.current) {
+      getGlobalSetting().then((params: GlobalSettingStateType) => {
+        setState(changeResponseToClient(params))
+        init.current = false
+  
+      })  
+
+      initRequest.current = false
+    }
 
   }, [])
 

@@ -19,15 +19,6 @@ import Register from '../auth/register';
 
 const { Header, Content, Footer } = Layout;
 
-const MenuItem = ({ title, url }: MenuItemType) => (
-    <Menu.Item className='!text-cyan-50 !p-4 hover:!text-red-700 hover:!bg-transparent font-semibold !mr-4'>
-        <Link to={url}>
-            {title}
-        </Link>
-    </Menu.Item>
-)
-
-
 const App = () => {
     const menus: MenuItemType[] = [
         { title: 'Home', url: '/home' },
@@ -36,6 +27,16 @@ const App = () => {
         { title: 'Inject List', url: '/inject' },
         { title: 'Settings', url: '/setting' },
         { title: 'Contact Us', url: '/contact' },
+    ]
+
+    const items = [
+        { label: 'item 1', key: 'item-1' }, // remember to pass the key prop
+        { label: 'item 2', key: 'item-2' }, // which is required
+        {
+            label: 'sub menu',
+            key: 'submenu',
+            children: [{ label: 'item 3', key: 'submenu-item-1' }],
+        },
     ]
 
     return (
@@ -52,7 +53,12 @@ const App = () => {
                     {
                         menus.map((menu: MenuItemType, i: number) => {
                             return (
-                                <MenuItem url={menu.url} title={menu.title} key={i} />
+                                <Menu.Item className='!text-cyan-50 !p-4 hover:!text-red-700 hover:!bg-transparent font-semibold !mr-4' key={i} >
+                                    <Link to={menu.url}>
+                                        {menu.title}
+                                    </Link>
+                                </Menu.Item>
+
                             )
                         })
                     }
@@ -72,7 +78,7 @@ const App = () => {
                 </Routes>
             </Content>
             <BackTop>
-                <div className='bg-stone-800 h-10 w-10 rounded-full text-center !border-stone-500 border leading-10'><VerticalAlignTopOutlined className='text-lg !font-extrabold'/></div>
+                <div className='bg-stone-800 h-10 w-10 rounded-full text-center !border-stone-500 border leading-10'><VerticalAlignTopOutlined className='text-lg !font-extrabold' /></div>
             </BackTop>
             <Footer className="text-center">
                 Cerberus @2022

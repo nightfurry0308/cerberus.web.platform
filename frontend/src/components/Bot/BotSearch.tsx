@@ -22,12 +22,12 @@ export default () => {
     <div className='mb-4 mt-4 text-center w-[600px] m-auto'>
       <Affix offsetTop={20}>
       <div className='mb-2 m-auto'>
-        <Tag color='cyan'>Bots {state.stats.bots}</Tag>
-        <Tag color='success'>Online {state.stats.online}</Tag>
-        <Tag color='volcano'>Offline {state.stats.offline}</Tag>
-        <Tag color='warning'>Dead {state.stats.dead}</Tag>
-        <Tag color='lime'>Bank {state.stats.banks}</Tag>
-        <Tag color='magenta'>Log {state.stats.log}</Tag>
+        <Tag className='w-16' color='cyan'>Bots {state.stats.bots}</Tag>
+        <Tag className='w-16' color='success'>Online {state.stats.online}</Tag>
+        <Tag className='w-16' color='volcano'>Offline {state.stats.offline}</Tag>
+        <Tag className='w-16' color='warning'>Dead {state.stats.dead}</Tag>
+        <Tag className='w-16' color='lime'>Bank {state.stats.banks}</Tag>
+        <Tag className='w-16' color='magenta'>Log {state.stats.log}</Tag>
       </div>
       </Affix>
       <div className='flex'>

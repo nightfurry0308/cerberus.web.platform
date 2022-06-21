@@ -254,7 +254,7 @@ export default () => {
                         label="Launch bot"
                         name="launchbot"
                     >
-                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' value={parseInt(state.launchBot)} defaultValue={parseInt(state.launchBot)} min={0} max={1500} onChange={(e: number) => {
+                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' value={parseInt(state.launchBot)} min={0} max={1500} onChange={(e: number) => {
                             setState((state: any) => {
                                 return {
                                     ...state,
