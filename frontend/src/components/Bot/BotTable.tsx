@@ -176,7 +176,6 @@ const BotsTable: React.FC = () => {
   useEffect(() => {
     load()
 
-    console.log(state.table)
   }, [state.table.perPage, state.table.page, state.search])
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
