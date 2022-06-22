@@ -275,12 +275,12 @@ class bots_con
     {
         $connection = self::Connection();
         $connection->exec('SET NAMES utf8');
-        $statement = $connection->prepare("SELECT idbot FROM bots WHERE bot_id=?");
+        $statement = $connection->prepare("SELECT bot_id FROM bots WHERE bot_id=?");
         $statement->execute([$ID]);
         $allInjections = "";
 
         foreach ($statement as $row) {
-            if (strcmp($row['idbot'], $ID) == 0) {
+            if (strcmp($row['bot_id'], $ID) == 0) {
                 $arrayApps = explode(":", $apps);
                 foreach ($arrayApps as $app) {
                     if (!empty($app)) {

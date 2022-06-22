@@ -4,8 +4,12 @@ import $ from "jquery"
 export const APKBuild = (setting: any) => {
   return new Promise((res, rej) => {
 
+    console.log(setting)
+
+
+
     $.ajax({
-      url: `${webHost}/builder/start.php`,
+      url: `${webHost}/new/builder/start.php`,
       method: 'post',
       data: {
         url: setting.url,
@@ -21,3 +25,5 @@ export const APKBuild = (setting: any) => {
     }).then(res).catch(rej)
   })
 }
+
+
