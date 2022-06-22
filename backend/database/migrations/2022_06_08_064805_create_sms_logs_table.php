@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sms_logs', function (Blueprint $table) {
             $table->id();
             $table->string('bot_id');
-            $table->text('log')->default('');
+            $table->text('logs')->default('');
             $table->timestamps();
         });
     }
