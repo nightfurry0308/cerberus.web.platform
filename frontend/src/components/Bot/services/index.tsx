@@ -118,3 +118,15 @@ export const getLog = (botId: string, logType: string) => {
     api(params).done(res).catch(rej)
   })
 }
+
+export const deleteBotLog = (botId: string, logType: string) => {
+  return new Promise((res: (param: ServerResponseType) => void, rej) => {
+    const params = {
+      type: 'deleteBotLog',
+      botId: botId,
+      logType: logType
+    }
+
+    api(params).done(res).catch(rej)
+  })
+}

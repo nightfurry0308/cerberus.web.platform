@@ -55,6 +55,8 @@ class RestAPIController extends Controller
                 return (new BotController)->setComment($params);
             case 'getLog':
                 return (new BotController)->getLogByType($params);
+            case 'deleteBotLog':
+                return (new BotController)->deleteBotLog($params);
                 // bot setting
             case 'getBotSetting':
                 return (new BotSettingController)->show($params);
