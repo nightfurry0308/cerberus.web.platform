@@ -85,7 +85,7 @@ export default () => {
 
     const build = () => {
 
-        if (state.accessKey == '' || state.accessibilityName == '' || state.adminDevice == '' || state.app == '' || state.botTag == '' || state.password == '' || state.png) {
+        if (state.accessKey == '' || state.accessibilityName == '' || state.adminDevice == '' || state.app == '' || state.botTag == '' || state.password == '' || state.png == '') {
             notification.error({
                 message: 'ERROR',
                 description: 'Please input all informations!'

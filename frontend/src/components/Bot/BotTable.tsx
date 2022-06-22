@@ -359,7 +359,12 @@ const BotsTable: React.FC = () => {
     },
     {
       title: 'DateTime',
-      dataIndex: 'createdAt',
+      dataIndex: 'dateInfection',
+      render: (date: string) => {
+        return (
+          <div>{new Date(date).toLocaleDateString()}</div>
+        )
+      }
     },
     {
       title: 'Comment',
