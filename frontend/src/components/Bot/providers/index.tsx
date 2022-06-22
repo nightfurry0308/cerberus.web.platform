@@ -12,6 +12,7 @@ export const BotProvider = ({ children }: { children: any }) => {
     botLogModal: false,
     botLogType: '',
     botTypeLogs: [],
+    botLogLoading: false,
     botInfoModal: false,
     commentChangeModal: false,
     comment: '',

