@@ -55,10 +55,11 @@ class InjectController extends Controller
         $inject->app = $param->app;
         $inject->html = $param->html;
 
-        $path = 'images/temp/' . $param->app . '.png';
-        Image::make($param->png)->resize(16, 16)->encode('png')->save($path);
+        // $path = 'images/temp/' . $param->app . '.png';
+        // Image::make($param->png)->resize(16, 16)->encode('png')->save($path);
 
-        $inject->png = base64_encode(file_get_contents($path));
+        // $inject->png = base64_encode(file_get_contents($path));
+        $inject->png = $param->png;
 
         if ($inject->save()) {
             return ['type' => 'success', 'message' => 'An Inject is created successfully'];

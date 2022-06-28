@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useContext } from "react";
 import { Form, Input, Button, notification, Card, InputNumber, Select } from 'antd';
 import { APKBuild } from "./services";
@@ -6,10 +7,11 @@ import { AppContext } from '../../providers';
 
 const { Option } = Select
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
     const [apkBuild, setAPKBuild] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { appState, setAppState } = useContext(AppContext)
+    const { appState } = useContext(AppContext)
 
     const [state, setState] = useState({
         url: '',
@@ -17,7 +19,7 @@ export default () => {
         adminDevice: '',
         accessibilityName: '',
         botTag: '',
-        launchBot: '1',
+        launchBot: '0',
         accessKey: '',
         png: '',
         password: ''
@@ -61,7 +63,7 @@ export default () => {
                         }
                     };
                 };
-                reader.onerror = function (evt) {
+                reader.onerror = function () {
                     notification['error']({
                         message: 'error',
                         description: 'error reading file',
@@ -85,7 +87,8 @@ export default () => {
 
     const build = () => {
 
-        if (state.accessKey == '' || state.accessibilityName == '' || state.adminDevice == '' || state.app == '' || state.botTag == '' || state.password == '' || state.png == '') {
+        // eslint-disable-next-line eqeqeq
+        if (state.accessKey == '' || state.accessibilityName == '' || state.adminDevice == '' || state.app == '' || state.botTag == '' || state.password == '') {
             notification.error({
                 message: 'ERROR',
                 description: 'Please input all informations!'
@@ -98,6 +101,16 @@ export default () => {
         setAPKBuild(false)
 
         APKBuild(state).then((res: any) => {
+            if (res.toString() === 'e') {
+                notification.error({
+                    message: 'ERROR',
+                    description: 'Password incorrect!'
+                })
+                setLoading(false)
+
+                return
+            }
+
             if (res.toString().length < 10) {
                 notification.error({
                     message: 'ERROR',
@@ -252,9 +265,8 @@ export default () => {
 
                     <Form.Item
                         label="Launch bot"
-                        name="launchbot"
                     >
-                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' value={parseInt(state.launchBot)} min={0} max={1500} onChange={(e: number) => {
+                        <InputNumber className='!w-full' placeholder='Launch bot by activity [0 ~ 1500]' defaultValue={0} value={parseInt(state.launchBot)} min={0} max={1500} onChange={(e: number) => {
                             setState((state: any) => {
                                 return {
                                     ...state,
