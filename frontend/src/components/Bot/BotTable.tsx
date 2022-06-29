@@ -358,7 +358,7 @@ const BotsTable: React.FC = () => {
     },
     {
       title: 'Sim',
-      dataIndex: 'sim',
+      dataIndex: 'operator',
     },
     {
       title: 'DateTime',

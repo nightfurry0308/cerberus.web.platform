@@ -1,4 +1,4 @@
-import { Empty, Modal, Avatar, List, notification, Popconfirm, Skeleton } from "antd"
+import { Empty, Modal, List, notification, Popconfirm, Skeleton } from "antd"
 import { BotContext } from './providers';
 import { useContext } from 'react';
 import { deleteBotLog } from './services';
@@ -20,6 +20,7 @@ const LoadingSkelton = ({ count }: { count: number }) => {
   )
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   const { state, setState } = useContext(BotContext)
 
@@ -79,12 +80,13 @@ export default () => {
           state.botLogLoading ? <LoadingSkelton count={5} /> : (
             <div>
               {
-                state.botTypeLogs.length == 0 ? (
+                state.botTypeLogs.length === 0 ? (
                   <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 ) : (
                   <List
                     itemLayout="horizontal"
                     dataSource={state.botTypeLogs}
+                    className='h-96 overflow-y-auto'
                     renderItem={(item: any) => (
                       <List.Item className="!pb-1 !pt-1">
                         <List.Item.Meta
