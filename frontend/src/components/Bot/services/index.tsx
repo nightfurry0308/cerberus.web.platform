@@ -84,6 +84,7 @@ export const deleteBot = (selectedBots: string[]) => {
 }
 
 export const setCommand = (selectedBots: string[], command: string) => {
+
   return new Promise((res: (param: ServerResponseType) => void, rej) => {
     const params = {
       type: 'setCommand',

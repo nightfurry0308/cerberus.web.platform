@@ -1,4 +1,4 @@
-import { Modal, Row, Col, Button, message } from 'antd';
+import { Modal, Row, Col, Button } from 'antd';
 import { useContext } from 'react';
 import { BotStateType, BotRowType } from '../../common/DataType';
 import { BotContext } from './providers';
@@ -18,8 +18,10 @@ import {
 import BotLog from './BotLog';
 import { getLog } from './services';
 import { changeResponseToClient } from '../../common/Utility';
+import { getBankLog } from '../Log/services';
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   const { state, setState } = useContext(BotContext)
 
@@ -43,7 +45,7 @@ export default () => {
 
   const getBank = (banks: any) => {
     let content = []
-    if (banks != '') {
+    if (banks !== '') {
       content = banks.split(':')
 
       return (
@@ -127,7 +129,7 @@ export default () => {
       html += renderToString(<MessageOutlined title='SMS Injection Triggered' className='!text-green-500' />)
     }
     else {
-      html += renderToString(<MessageOutlined title='SMS Injection not Triggered' className='!text-stone-500' />)
+      html += renderToString(<MessageOutlined title='SMS Injection not Triggered' className='!text-yellow-500' />)
     }
     html += ' ';
 
@@ -246,7 +248,7 @@ export default () => {
           <Button className='flex-1 ml-1' onClick={() => actions('bankLogs')}>Logs</Button>
         </Col>
       </Row>
-      <BotLog/>
+      <BotLog />
     </Modal>
   )
 }

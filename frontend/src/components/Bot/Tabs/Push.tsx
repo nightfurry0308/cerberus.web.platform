@@ -4,8 +4,9 @@ import { BotContext } from '../providers';
 import { setCommand } from '../services';
 import { ServerResponseType } from '../../../common/DataType';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
-  const { state, setState } = useContext(BotContext)
+  const { state } = useContext(BotContext)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [app, setApp] = useState('')
