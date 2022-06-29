@@ -17,11 +17,21 @@ class BankLogController extends Controller
     public function index($params)
     {
         $botId = $params->botId;
+        $injectId = $params->injectId;
+        $bFlag = false;
+        $model = BankLog::where('id', '>', 0);
 
-        if ($botId != '0') 
-            return BankLog::where('bot_id', $botId)->get();
+        if ($botId != '') {
+            $model = $model->where('bot_id', $botId);
+            $bFlag = true;
+        }
 
-        return BankLog::all();
+        if ($injectId != '') {
+            $model = $model->where('inject_id', $injectId);
+            $bFlag = true;
+        }
+
+        return $bFlag ? $model->get() : BankLog::all();
     }
 
     /**
