@@ -560,7 +560,7 @@ class bots_con
                 $statement = $connection->prepare("SELECT ID FROM key_logs_$idbot LIMIT 1");
                 $statement->execute(array());
                 //$arrayLogs = explode(":endlog:", $logs);
-                foreach ($statement as $row) {
+                // foreach ($statement as $row) {
                     foreach ($arrayLogs as $log) {
                         if (strlen($log) > 4) {
                             $log = base64_encode(str_replace(":endlog:", "", $log));
@@ -569,7 +569,7 @@ class bots_con
                         }
                     }
                     return "ok";
-                }
+                // }
             }
             if (!$isTableLogs) {
                 $statement = $connection->prepare("CREATE TABLE `key_logs_$idbot` ( `ID` INT(254) NOT NULL AUTO_INCREMENT, `logs` VARCHAR(12000) NOT NULL, PRIMARY KEY (`ID`)) ");
