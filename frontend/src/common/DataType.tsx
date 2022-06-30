@@ -78,6 +78,8 @@ export interface BotStateType {
   botLogModal: boolean
   botLogLoading: boolean
   botLogType: string
+  botBankInfoModal: boolean
+  botBankInfoLogs: []
   botTypeLogs: []
   selectedBots: []
   loading: boolean

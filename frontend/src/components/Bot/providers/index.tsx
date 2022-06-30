@@ -7,8 +7,10 @@ export const BotProvider = ({ children }: { children: any }) => {
   const [state, setState] = useState<BotStateType>({
     botId: '',
     selectedBots: [],
+    botBankInfoLogs: [],
     loading: true,
     botSettingModal: false,
+    botBankInfoModal: false,
     botLogModal: false,
     botLogType: '',
     botTypeLogs: [],

