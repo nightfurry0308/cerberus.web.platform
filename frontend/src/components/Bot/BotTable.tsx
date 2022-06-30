@@ -25,6 +25,9 @@ import {
 } from '@ant-design/icons';
 import CommentModal from './CommentModal';
 import { AppContext } from '../../providers';
+import { getBankLog } from '../Log/services';
+import { Base64 } from 'js-base64';
+import BotBankInfo from './BotBankInfo';
 
 const { Option } = Select
 
@@ -215,6 +218,14 @@ const BotsTable: React.FC = () => {
     })
   }
 
+  const getBankInfo = (logs: any, app: string) => {
+    setState((state: BotStateType) => ({
+      ...state,
+      botBankInfoModal: true,
+      botBankInfoLogs: logs.filter((row: any) => row.application === app).map((row: any) => (changeResponseToClient({...row, logs: JSON.parse(Base64.decode(row.logs))}))),
+    }))
+  }
+
   const handleInfo = (botId: string) => {
     setState((state: BotStateType) => {
       return {
@@ -333,7 +344,7 @@ const BotsTable: React.FC = () => {
       dataIndex: 'banks',
       render: (banks: string, record: any) => {
         let content = []
-        if (banks != '') {
+        if (banks !== '') {
           content = banks.split(':')
           return (
             <>
@@ -342,7 +353,7 @@ const BotsTable: React.FC = () => {
                   <div className='flex'>
                     <BankOutlined className='mt-1' />
                     &nbsp;<img src={`data:image/gif;base64,${record.icons[i]}`} className='w-4 h-4 mt-1' />
-                    <div className=''>&nbsp;{item}</div>
+                    <div className='cursor-pointer hover:text-green-400 duration-300' onClick={() => {getBankInfo(record.logs, item)}}>&nbsp;{item}</div>
                   </div>
                 )
               })}
@@ -425,6 +436,7 @@ const BotsTable: React.FC = () => {
         <Table rowSelection={rowSelection} columns={columns} dataSource={state.table.rows} pagination={false} />
       </Spin>
       <CommentModal />
+      <BotBankInfo/>
       <Pagination className='float-right !pt-2' defaultCurrent={state.table.page} total={state.table.count} pageSize={state.table.perPage} onChange={(page: number) => setState((state: BotStateType) => ({ ...state, table: { ...state.table, page: page } }))} />
     </>
 

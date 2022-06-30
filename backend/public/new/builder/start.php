@@ -59,8 +59,8 @@ class build
 				$id_user = $key; //"id_user";
 
 				if (strip_tags($password) != 'J%J8&wNyT!wbh4@w') {
-					echo "e";
-					die('valid err');
+					// echo "e";
+					die('e');
 				}
 
 				/*  $id_user = md5('user');//"id_user";

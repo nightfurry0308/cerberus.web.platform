@@ -18,7 +18,7 @@ import {
 import BotLog from './BotLog';
 import { getLog } from './services';
 import { changeResponseToClient } from '../../common/Utility';
-import { getBankLog } from '../Log/services';
+// import { getBankLog } from '../Log/services';
 
 
 // eslint-disable-next-line import/no-anonymous-default-export

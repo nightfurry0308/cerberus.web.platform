@@ -117,6 +117,7 @@ class BotController extends Controller
                     'bot_id' => $row1->bot_id,
                     'application' => $row1->application,
                     'logs' => $row1->logs,
+                    'created_at' => $row1->created_at,
                     'comment' => $row1->comment,
                 ];
             }
