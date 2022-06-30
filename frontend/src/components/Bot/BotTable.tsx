@@ -13,7 +13,7 @@ import {
   BankOutlined,
   EyeOutlined,
   UserOutlined,
-  PlayCircleOutlined,
+  PlayCircleFilled,
   PicLeftOutlined,
   SafetyCertificateOutlined,
   DollarCircleOutlined,
@@ -272,7 +272,7 @@ const BotsTable: React.FC = () => {
         return (
           <>
             {
-              record.commands === '' ? (<></>) : (<><PlayCircleOutlined className='text-lg mr-1 !text-stone-500' /></>)
+              record.commands === '' ? (<></>) : (<><PlayCircleFilled className='text-lg mr-1 !text-red-500 hover:!text-red-400 duration-300 cursor-pointer' /></>)
             }
             <InfoCircleOutlined className='text-lg mr-1 !text-stone-400 hover:!text-stone-300 duration-300 cursor-pointer' onClick={() => { handleInfo(record.id) }} />
             <SettingOutlined className='text-lg mr-1 !text-stone-400 hover:!text-stone-300 duration-300 cursor-pointer' onClick={() => { handleSetting(record.id) }} />

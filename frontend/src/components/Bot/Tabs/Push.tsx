@@ -5,7 +5,7 @@ import { setCommand } from '../services';
 import { ServerResponseType } from '../../../common/DataType';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default () => {
+export default ({load}: {load: () => void}) => {
   const { state } = useContext(BotContext)
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
@@ -26,6 +26,7 @@ export default () => {
         message: res.type.toUpperCase(),
         description: res.message
       })
+      load()
     })
   }
 
@@ -53,6 +54,7 @@ export default () => {
         message: res.type.toUpperCase(),
         description: res.message
       })
+      load()
     })
   }
 
