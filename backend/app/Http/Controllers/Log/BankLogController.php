@@ -106,4 +106,22 @@ class BankLogController extends Controller
     {
         return BankLog::destory($id);
     }
+
+    public function deleteLog($param)
+    {
+        if (BankLog::destroy($param->id)) {
+            return ['type' => 'success', 'message' => 'A Log is deleted successfully'];
+        } else {
+            return ['type' => 'error', 'message' => 'Error is occuried. Please try again and contact the support team'];
+        }        
+    }
+
+    public function deleteAllLog($param)
+    {
+        if (BankLog::truncate()) {
+            return ['type' => 'success', 'message' => 'All Logs are deleted successfully'];
+        } else {
+            return ['type' => 'error', 'message' => 'Error is occuried. Please try again and contact the support team'];
+        }        
+    }
 }

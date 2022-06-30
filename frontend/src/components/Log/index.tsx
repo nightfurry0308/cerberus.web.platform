@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import { LogContext } from './providers';
-import { Skeleton, Divider } from "antd";
+import { Skeleton, Divider, Popconfirm, Button, notification, Empty } from "antd";
 import { useEffect } from "react";
-import { getBankLog } from "./services";
-import { LogStateType } from "../../common/DataType";
+import { deleteAllBankLog, deleteBankLog, getBankLog } from "./services";
+import { LogStateType, ServerResponseType } from "../../common/DataType";
 import { changeResponseToClient } from '../../common/Utility';
 import { Base64 } from "js-base64";
 import {
-  BankOutlined
+  BankOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
 
 const LoadingSkelton = ({ count }: { count: number }) => {
@@ -38,7 +39,7 @@ export default () => {
         let rows = res.map((row: any) => changeResponseToClient(row))
         return {
           ...state,
-          bankLogRows: rows.map((row: any) => ({...row, logs: JSON.parse(Base64.decode(row.logs))})),
+          bankLogRows: rows.map((row: any) => ({ ...row, logs: JSON.parse(Base64.decode(row.logs)) })),
           loading: false
         }
       })
@@ -49,31 +50,73 @@ export default () => {
     load()
   }, [])
 
+  const handleDeleteBankLog = (id: string) => {
+    deleteBankLog(id).then((res: ServerResponseType) => {
+      notification['info']({
+        message: res.type.toUpperCase(),
+        description: res.message
+      })
+      load()
+    })
+  }
+
+  const handleDeleteAllBankLog = () => {
+    deleteAllBankLog().then((res: ServerResponseType) => {
+      notification['info']({
+        message: res.type.toUpperCase(),
+        description: res.message
+      })
+      load()
+    })
+  }
+
   return (
     <>
       {
         state.loading ?
           (<LoadingSkelton count={5} />) : (
             <div>
+              <Popconfirm
+                title="Are you sure to delete all logs?"
+                onConfirm={handleDeleteAllBankLog}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button className="float-right mb-2" danger>Delete All Logs</Button>
+              </Popconfirm>
+              <Divider />
               {
-                state.bankLogRows.map((row:any) => {
+                state.bankLogRows.length === 0 ?
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> :
+
+                state.bankLogRows.map((row: any) => {
                   return (
                     <div>
-                      <span className="text-orange-600 cursor-pointer hover:text-orange-400 duration-300">{row.botId}</span>
-                      <div className="flex text-stone-200"><BankOutlined className='mt-1' />&nbsp;<span className="">{row.application}</span></div>
+                      <div className="float-right">
+                        <Popconfirm
+                          title="Are you sure to delete this log?"
+                          onConfirm={() => { handleDeleteBankLog(row.id) }}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <DeleteOutlined className="!text-stone-500 hover:!text-stone-200 duration-300 cursor-pointer " />&nbsp;
+                        </Popconfirm>
+                      </div>
+                      <span className="text-orange-600">{row.botId}</span>
+                      <div className="flex text-stone-400"><BankOutlined className='mt-1' />&nbsp;<span className="">{row.application}</span></div>
                       <p>
                         {
-                          Object.keys(row.logs).map((key:string) => {
+                          Object.keys(row.logs).map((key: string) => {
                             return (
-                              <div className="text-stone-500 cursor-default">
+                              <div className="text-stone-400 cursor-default">
                                 {key} : <span className="hover:text-stone-400 duration-300">{row.logs[key]}</span>
                               </div>
                             )
                           })
                         }
-                      <span className="text-stone-500 float-right">{new Date(row.createdAt).toLocaleString()}</span>
+                        <span className="text-stone-500 float-right">{new Date(row.createdAt).toLocaleString()}</span>
                       </p>
-                      <Divider/>
+                      <Divider />
                     </div>
                   )
                 })

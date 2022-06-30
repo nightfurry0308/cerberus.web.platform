@@ -23,7 +23,7 @@ const InjectList = () => {
         </div>
         <Affix offsetBottom={8}>
           <BotTab />
-          </Affix>
+        </Affix>
       </BotProvider>
     </>)
 };

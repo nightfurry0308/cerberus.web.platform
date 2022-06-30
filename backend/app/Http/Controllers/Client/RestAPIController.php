@@ -71,7 +71,12 @@ class RestAPIController extends Controller
                 return (new LoginController)->login($params);
             case 'register':
                 return (new LoginController)->register($params);
-        }
+                // bank log
+            case 'deleteBankLog':
+                return (new BankLogController)->deleteLog($params);
+            case 'deleteAllBankLog':
+                return (new BankLogController)->deleteAllLog($params);
+            }
     }
 
     /**

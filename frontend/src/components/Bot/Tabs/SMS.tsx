@@ -4,7 +4,7 @@ import { BotContext } from '../providers';
 import { setCommand } from '../services';
 import { ServerResponseType } from '../../../common/DataType';
 
-export default () => {
+export default ({load}: {load: () => void}) => {
   const { state, setState } = useContext(BotContext)
   const [phone, setPhone] = useState('')
   const [sms, setSMS] = useState('')
@@ -33,6 +33,8 @@ export default () => {
         message: res.type.toUpperCase(),
         description: res.message
       })
+      load()
+
     })
   }  
 
@@ -60,6 +62,8 @@ export default () => {
         message: res.type.toUpperCase(),
         description: res.message
       })
+      load()
+
     })
   }  
   
